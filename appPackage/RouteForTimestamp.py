@@ -28,7 +28,6 @@ class RouteForTimestamp:
                 emp_no=''
                 for row in cursor:
                     emp_no = row[0]
-                    print(emp_no)
                 cursor.execute("ALTER SESSION SET NLS_DATE_FORMAT = 'DD/MM/YYYY'")
                 cursor.callproc('tonkm_package.ins_for_timestamp',[emp_no, begin_date,end_date])
                 qryStr = ReadConf().qryForTimestamp()['Query']

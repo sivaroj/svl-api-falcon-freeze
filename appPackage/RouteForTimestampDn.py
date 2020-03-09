@@ -29,7 +29,6 @@ class RouteForTimestampDn:
                 data = collections.OrderedDict()
                 emp = collections.OrderedDict()
                 dn = []
-                t = collections.OrderedDict()
                 for row in cursor:
                     emp['EMP_NO'] = row[0]
                     emp['ID_CARD'] = row[1]
@@ -39,7 +38,7 @@ class RouteForTimestampDn:
                     t['ENERGY_TYPE'] = row[4]
                     t['JOB_NO'] = row[5]
                     t['DN_NO'] = row[6]
-                    t['DN_ORDER'] = row[7]
+                    t['DN_ORDER'] = str(row[7])
                     t['DN_DATE'] = row[8]
                     t['SOURCE_POINT'] = row[9]
                     t['SOURCE_NAME'] = row[10]
