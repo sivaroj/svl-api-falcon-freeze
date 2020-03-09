@@ -99,7 +99,7 @@ class Get_Sum_LH_dn(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -121,7 +121,7 @@ class Get_Sum_Sub_Lh_dn(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -143,7 +143,7 @@ class Get_Sum_Product(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -165,7 +165,7 @@ class Get_Sum_Sub_Product(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -187,7 +187,7 @@ class Get_Sum_Factory_Product(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -209,7 +209,7 @@ class Get_Cus_Order(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -231,7 +231,7 @@ class Get_Receivers(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -253,7 +253,7 @@ class Get_Send_Document(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -276,7 +276,7 @@ class Get_Trucks_Per_Day(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -298,7 +298,7 @@ class Get_DN_Round_Trip(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -320,7 +320,7 @@ class Get_DN_Round_Trip_Detail(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -342,7 +342,7 @@ class Get_Emp_In_Month(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -365,7 +365,7 @@ class Get_All_Dn_In_Month_By_Emp(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -398,7 +398,7 @@ class Get_Emp_Works_Between_Date(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -421,7 +421,7 @@ class Driver_DN_Per_Day(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -445,7 +445,7 @@ class Check_DN_Error(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -468,7 +468,7 @@ class Qry_Allowance_By_Emp(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -492,7 +492,7 @@ class All_Ton_KM(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -515,7 +515,7 @@ class Route_For_Timestamp(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -539,7 +539,7 @@ class Route_For_Timestamp_Dn(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -561,7 +561,7 @@ class Emp_Dn_Between_Date(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -585,7 +585,7 @@ class HereReverseGeoLocation(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -609,7 +609,7 @@ class HereRouteSummary(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -633,7 +633,7 @@ class Truck_Position(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -649,6 +649,28 @@ class Truck_Position(object):
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require vehicles parameter.')
+
+
+class DN_Timestamp(object):
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'POST, OPTIONS', falcon.HTTP_200, data)
+
+    def on_post(self, req, resp, **kwargs):
+        username, password = getUserPass(req)
+        login = Login_Postgres(user=username, password=password)
+        is_login = json.loads(login.login().decode('utf-8'))
+        if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|'.find(username) > 0):
+            data = req.media
+            resp.body = json.dumps(data)
+            # print(data)
+            print(data['dn_no'])
+            print(data['position']['latitude'])
+            print(data['position']['longitude'])
+
+            response(resp, 'POST, OPTIONS', falcon.HTTP_200, json.dumps(data).encode('utf-8'))
+        else:
+            response(resp, 'GET, POST OPTIONS', falcon.HTTP_404, 'error: User can not login.')
 
 
 app = application = falcon.API()
@@ -678,6 +700,7 @@ empDnBetweenDate = Emp_Dn_Between_Date()
 hereReverseGeoLocation = HereReverseGeoLocation()
 hereRouteSummary = HereRouteSummary()
 truckPosition = Truck_Position()
+dnTimestamp = DN_Timestamp()
 # -----------------------------------------------------------------------
 app.add_route('/api_v3/chkUser', chkUser)
 app.add_route('/api_v3/getSumLh_dn', getSumLh_dn)
@@ -704,6 +727,7 @@ app.add_route('/api_v3/empDnBetweenDate', empDnBetweenDate)
 app.add_route('/api_v3/reverseGeoLocation', hereReverseGeoLocation)
 app.add_route('/api_v3/routeSummary', hereRouteSummary)
 app.add_route('/api_v3/truckPositions', truckPosition)
+app.add_route('/api_v3/dnTimestamp', dnTimestamp)
 # -----------------------------------------------------------------------
 if __name__ == '__main__':
     http = simple_server.make_server('0.0.0.0', 6000, app)
