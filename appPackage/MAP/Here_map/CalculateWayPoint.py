@@ -13,7 +13,7 @@ def CalculateWayPoint(waypoint0,waypoint1,mode):
     route = r.json()
     distance = route['response']['route'][0]['summary']['distance']
     seconds = route['response']['route'][0]['summary']['travelTime']
-    travel_time = cTime.convertTool.convertTimeFormat(seconds)
+    travel_time = cTime.convertTimeFormat(seconds)
     data = collections.OrderedDict()
     data['waypoint0'] = waypoint0
     data['waypoint1'] = waypoint1

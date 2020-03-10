@@ -26,6 +26,7 @@ from appPackage import RouteForTimestampDn
 from appPackage import EmpDnBetweenDate
 from appPackage.MAP import Here_map
 from appPackage import TruckPosition
+from appPackage import DNTimestamp
 
 
 def response(resp, methods, status, data):
@@ -661,16 +662,15 @@ class DN_Timestamp(object):
         login = Login_Postgres(user=username, password=password)
         is_login = json.loads(login.login().decode('utf-8'))
         if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|'.find(username) > 0):
-            data = req.media
-            resp.body = json.dumps(data)
-            # print(data)
-            print(data['dn_no'])
-            print(data['position']['latitude'])
-            print(data['position']['longitude'])
-
-            response(resp, 'POST, OPTIONS', falcon.HTTP_200, json.dumps(data).encode('utf-8'))
+            # jsonParams = json.loads(req.media)
+            jsonParams = req.media
+            #data = DNTimestamp.put_data(self,jsonParams)
+            data = jsonParams
+            # response(resp, 'POST, OPTIONS', falcon.HTTP_200, json.dumps(data).encode('utf-8'))
+            data = DNTimestamp.put_data(self,data)
+            response(resp, 'POST, OPTIONS', falcon.HTTP_201, data)
         else:
-            response(resp, 'GET, POST OPTIONS', falcon.HTTP_404, 'error: User can not login.')
+            response(resp, 'POST OPTIONS', falcon.HTTP_404, 'error: User can not login.')
 
 
 app = application = falcon.API()
