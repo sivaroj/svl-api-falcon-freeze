@@ -12,7 +12,6 @@ def BusNow(vehicleList):
     headers={'Content-Type': 'application/json'}
     body = {"token": conf['token'], "vehicleList": vehicleList}
     r = requests.post(url, data=json.dumps(body), headers=headers)
-    print(r.text)
     vehicles = json.loads(r.text)['bus']
     data = []
     for vehicle in vehicles:

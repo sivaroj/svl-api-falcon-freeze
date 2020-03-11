@@ -47,7 +47,6 @@ class DNTimestamp:
             try:
                 cursor = conn.cursor()
                 json_data = json.dumps(data,ensure_ascii=False,indent=None).encode('utf-8').decode('utf-8')
-                print(json_data)
                 qryStr = qryStr.replace('{{data}}',json_data)
                 cursor.execute(qryStr)
                 conn.commit()

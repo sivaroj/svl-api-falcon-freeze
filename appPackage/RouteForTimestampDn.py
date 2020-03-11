@@ -1,6 +1,9 @@
 import cx_Oracle
+import psycopg2
 import json
 import collections
+import hashlib
+import arrow
 from .readConf import ReadConf
 from .login_Postgres import Login_Postgres
 
@@ -16,6 +19,26 @@ class RouteForTimestampDn:
             conn = None
             data = {}
             try:
+
+                # ---- 1 หา DN ว่ามีใน postgresql12 dn_timestamp หรือไม่ -------------------------------------
+                # ------   1.1 ถ้ามี อ่านค่า dn_timestamp.md5 (ทุก row ต้องมีค่าเท่ากัน)
+                # ------   1.2 ถ้าไม่เคยมีมาก่อน คำนวณ md5 จาก dn+':'+dn_date ตั่วอย่าง 2003110093:11/03/2020 นำไปคำนวณค่า md5
+                pg = ReadConf().postgres12()  # new server postgresql v 12
+                conn =psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user=user, password=password)
+                cursor = conn.cursor()
+                qryStr = "select min(data->>'md5') from dn_timestamp t where data->>'DN_NO'=%(dn_no)s"
+                param = {'dn_no':dn_no}
+                cursor.execute(qryStr,param)
+                rows = cursor.fetchone()
+                if type(rows[0]) == type(None):
+                    t = arrow.now()
+                    dn_no_date = dn_no+':'+t.format('DD/MM/YYYY')
+                    m = hashlib.md5(dn_no_date.encode())
+                    md5 = m.hexdigest()
+                    print(md5)
+                else:
+                    md5 = rows[0]
+                # ------ 2 หาดำดับเส้นทางลงเวลา ขึ้นสินค้า ลงสินค้า --------------------------------------
                 dsn_tns = cx_Oracle.makedsn(ora['server'], ora['port'], ora['service'])
                 conn = cx_Oracle.connect(ora['user'], ora['password'], dsn_tns
                                          , encoding="UTF-8")
@@ -40,6 +63,7 @@ class RouteForTimestampDn:
                     t['DN_NO'] = row[6]
                     t['DN_ORDER'] = str(row[7])
                     t['DN_DATE'] = row[8]
+                    t['MD5'] = md5
                     t['SOURCE_POINT'] = row[9]
                     t['SOURCE_NAME'] = row[10]
                     t['SOURCE_ADDR3'] = row[11]
