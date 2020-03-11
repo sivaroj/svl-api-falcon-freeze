@@ -3,7 +3,7 @@ import json
 import requests
 import appPackage.MAP.readConf as ReadConf
 from appPackage.MAP import Here_map
-from appPackage import convertTool as ctool
+from appPackage.MAP.convertTool import ConvertTool
 
 
 def BusNow(vehicleList):
@@ -19,7 +19,7 @@ def BusNow(vehicleList):
         truck_addr = json.loads(Here_map.ReverseGeoCoder(str(vehicle['latitude']), str(vehicle['longitude']), '2').decode('utf-8'))
         addr = truck_addr['Address'][0]['label']
         truck_position['vehicle'] = vehicle['vehicleName']
-        truck_position['datetime'] = ctool.tzToStr(vehicle['dateTime'])
+        truck_position['datetime'] = ConvertTool.tzToStr(vehicle['dateTime'])
         truck_position['speed'] = vehicle['speed']
         truck_position['heading'] = vehicle['direction']
         truck_position['latitude'] = vehicle['latitude']

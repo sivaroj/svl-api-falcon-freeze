@@ -1,31 +1,31 @@
-from wsgiref import simple_server
 import falcon
 import json
 import base64
 from appPackage import Login_Postgres
-from appPackage import GetSumLh_dn as gSum
-from appPackage import GetSumSubLh_dn as gSumSub
-from appPackage import GetSumProduct as gSumPro
-from appPackage import GetSumSubProduct as gSumSubPro
-from appPackage import GetSumFactoryProduct as gSumFac
-from appPackage import GetCusOrder as gCus
-from appPackage import GetReceivers as gRec
-from appPackage import GetSendDocument as gDoc
-from appPackage import GetTrucksPerDay as gTruck
-from appPackage import GetDNRoundTrips as gTrip
-from appPackage import GetDNRoundTripDetail as gDetail
-from appPackage import GetEmpInMonth as gEmp
-from appPackage import GetAllDnInMonthByEmp as gAllEmp
-from appPackage import GetEmpWorksBetweenDate as gEmpDate
-from appPackage import DriverDnPerDay as gDriver
-from appPackage import ChkDnError as chkDn
-from appPackage import QryAllowanceByEmp as qbyEmp
-from appPackage import AllTonKM as Tonkm
-from appPackage import RouteForTimestamp as rForTs
-from appPackage import RouteForTimestampDn as rForTsDn
-from appPackage import EmpDnBetweenDate as eDnDate
+from appPackage import GetSumLh_dn
+from appPackage import GetSumSubLh_dn
+from appPackage import GetSumProduct
+from appPackage import GetSumSubProduct
+from appPackage import GetSumFactoryProduct
+from appPackage import GetCusOrder
+from appPackage import GetReceivers
+from appPackage import GetSendDocument
+from appPackage import GetTrucksPerDay
+from appPackage import GetDNRoundTrips
+from appPackage import GetDNRoundTripDetail
+from appPackage import GetEmpInMonth
+from appPackage import GetAllDnInMonthByEmp
+from appPackage import GetEmpWorksBetweenDate
+from appPackage import DriverDnPerDay
+from appPackage import ChkDnError
+from appPackage import QryAllowanceByEmp
+from appPackage import AllTonKM
+from appPackage import RouteForTimestamp
+from appPackage import RouteForTimestampDn
+from appPackage import EmpDnBetweenDate
 from appPackage.MAP import Here_map
-from appPackage import TruckPosition as tPos
+from appPackage import TruckPosition
+from appPackage import DNTimestamp
 
 
 def response(resp, methods, status, data):
@@ -95,11 +95,11 @@ class Login(object):
         response(resp, 'GET, POST, OPTIONS', falcon.HTTP_201, data)
 
 
-class GetSumLH_dn(object):
+class Get_Sum_LH_dn(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -111,17 +111,17 @@ class GetSumLH_dn(object):
                 params.update({key: value})
             if 'work_date' in params:
                 dn_date =params['work_date']
-                data = gSum.GetSumLH_dn.get_data(self,user=username, password=password, dn_date=dn_date)
+                data = GetSumLh_dn.GetSumLH_dn.get_data(self,user=username, password=password, dn_date=dn_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require work_date parameter.')
 
 
-class GetSumSubLh_dn(object):
+class Get_Sum_Sub_Lh_dn(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -133,17 +133,17 @@ class GetSumSubLh_dn(object):
                 params.update({key: value})
             if 'work_date' in params:
                 dn_date =params['work_date']
-                data =  gSumSub.get_data(self,user=username, password=password, work_date=dn_date)
+                data =  GetSumSubLh_dn.get_data(self,user=username, password=password, work_date=dn_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require work_date parameter.')
 
 
-class GetSumProduct(object):
+class Get_Sum_Product(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -155,17 +155,17 @@ class GetSumProduct(object):
                 params.update({key: value})
             if 'work_date' in params:
                 dn_date =params['work_date']
-                data =  gSumPro.get_data(self,user=username, password=password, dn_date=dn_date)
+                data =  GetSumProduct.get_data(self,user=username, password=password, dn_date=dn_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require work_date parameter.')
 
 
-class GetSumSubProduct(object):
+class Get_Sum_Sub_Product(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -177,17 +177,17 @@ class GetSumSubProduct(object):
                 params.update({key: value})
             if 'work_date' in params:
                 dn_date = params['work_date']
-                data = gSumSubPro.get_data(self,user=username, password=password, dn_date=dn_date)
+                data = GetSumSubProduct.get_data(self,user=username, password=password, dn_date=dn_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require work_date parameter.')
 
 
-class GetSumFactoryProduct(object):
+class Get_Sum_Factory_Product(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -199,17 +199,17 @@ class GetSumFactoryProduct(object):
                 params.update({key: value})
             if 'work_date' in params:
                 dn_date =params['work_date']
-                data =  gSumFac.get_data(self,user=username, password=password, dn_date=dn_date)
+                data =  GetSumFactoryProduct.get_data(self,user=username, password=password, dn_date=dn_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require work_date parameter.')
 
 
-class GetCusOrder(object):
+class Get_Cus_Order(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -221,17 +221,17 @@ class GetCusOrder(object):
                 params.update({key: value})
             if 'work_date' in params:
                 dn_date =params['work_date']
-                data = gCus.get_data(self, user=username, password=password, dn_date=dn_date)
+                data = GetCusOrder.get_data(self, user=username, password=password, dn_date=dn_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require work_date')
 
 
-class GetReceivers(object):
+class Get_Receivers(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -243,17 +243,17 @@ class GetReceivers(object):
                 params.update({key: value})
             if 'work_date' in params:
                 dn_date =params['work_date']
-                data = gRec.get_data(self, user=username, password=password, dn_date=dn_date)
+                data = GetReceivers.get_data(self, user=username, password=password, dn_date=dn_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require work_date parameter.')
 
 
-class GetSendDocument(object):
+class Get_Send_Document(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -266,17 +266,17 @@ class GetSendDocument(object):
             if ('begin_date' in params) and ('end_date' in params):
                 begin_date = params['begin_date']
                 end_date = params['end_date']
-                data = gDoc.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
+                data = GetSendDocument.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_20, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
 
 
-class GetTrucksPerDay(object):
+class Get_Trucks_Per_Day(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -288,17 +288,17 @@ class GetTrucksPerDay(object):
                 params.update({key: value})
             if 'work_date' in params:
                 work_date = params['work_date']
-                data = gTruck.get_data(self, user=username, password=password, dn_date=work_date)
+                data = GetTrucksPerDay.get_data(self, user=username, password=password, dn_date=work_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
 
 
-class GetDNRoundTrip(object):
+class Get_DN_Round_Trip(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -310,17 +310,17 @@ class GetDNRoundTrip(object):
                 params.update({key: value})
             if 'dn_no' in params:
                 dn_no = params['dn_no']
-                data = gTrip.get_data(self, user=username, password=password, dn_no=dn_no)
+                data = GetDNRoundTrips.get_data(self, user=username, password=password, dn_no=dn_no)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require dn_no parameter.')
 
 
-class GetDNRoundTripDetail(object):
+class Get_DN_Round_Trip_Detail(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -332,17 +332,17 @@ class GetDNRoundTripDetail(object):
                 params.update({key: value})
             if 'dn_no' in params:
                 dn_no = params['dn_no']
-                data = gDetail.get_data(self, user=username, password=password, dn_no=dn_no)
+                data = GetDNRoundTripDetail.get_data(self, user=username, password=password, dn_no=dn_no)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require dn_no parameters')
 
 
-class GetEmpInMonth(object):
+class Get_Emp_In_Month(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -357,15 +357,15 @@ class GetEmpInMonth(object):
             else:
                 begin_date = params['begin_date']
                 end_date = params['end_date']
-                data = gEmp.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
+                data = GetEmpInMonth.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
 
-class GetAllDnInMonthByEmp(object):
+class Get_All_Dn_In_Month_By_Emp(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -394,11 +394,11 @@ class GetAllDnInMonthByEmp(object):
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
 
-class GetEmpWorksBetweenDate(object):
+class Get_Emp_Works_Between_Date(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -411,17 +411,17 @@ class GetEmpWorksBetweenDate(object):
             if ('begin_date' in params) and ('end_date' in params):
                 begin_date = params['begin_date']
                 end_date = params['end_date']
-                data = gEmpDate.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
+                data = GetEmpWorksBetweenDate.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
 
 
-class DriverDNperDay(object):
+class Driver_DN_Per_Day(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -435,17 +435,17 @@ class DriverDNperDay(object):
             if ('begin_date' in params) and ('end_date' in params):
                 begin_date = params['begin_date']
                 end_date = params['end_date']
-                data = gDriver.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date, secure_id=secure_id)
+                data = DriverDnPerDay.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date, secure_id=secure_id)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
 
 
-class CheckDNError(object):
+class Check_DN_Error(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -458,17 +458,17 @@ class CheckDNError(object):
             if ('begin_date' in params) and ('end_date' in params):
                 begin_date = params['begin_date']
                 end_date = params['end_date']
-                data = chkDn.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
+                data = ChkDnError.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
 
 
-class QryAllowanceByEmp(object):
+class Qry_Allowance_By_Emp(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -482,17 +482,17 @@ class QryAllowanceByEmp(object):
                 begin_date = params['begin_date']
                 end_date = params['end_date']
                 emp_no = params['emp_no']
-                data = qbyEmp.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date, emp_no=emp_no)
+                data = QryAllowanceByEmp.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date, emp_no=emp_no)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date emp_no parameters.')
 
 
-class AllTonKM(object):
+class All_Ton_KM(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -505,17 +505,17 @@ class AllTonKM(object):
             if ('begin_date' in params) and ('end_date' in params) :
                 begin_date = params['begin_date']
                 end_date = params['end_date']
-                data = Tonkm.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
+                data = AllTonKM.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
 
 
-class RouteForTimestamp(object):
+class Route_For_Timestamp(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -529,17 +529,17 @@ class RouteForTimestamp(object):
             if ('begin_date' in params) and ('end_date' in params):
                 begin_date = params['begin_date']
                 end_date = params['end_date']
-                data = rForTs.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date, id_card=id_card)
+                data = RouteForTimestamp.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date, id_card=id_card)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
 
 
-class RouteForTimestampDn(object):
+class Route_For_Timestamp_Dn(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -551,17 +551,17 @@ class RouteForTimestampDn(object):
                 params.update({key: value})
             if 'dn_no' in params:
                 dn_no = params['dn_no']
-                data = rForTsDn.get_data(self, user=username, password=password, dn_no=dn_no)
+                data = RouteForTimestampDn.get_data(self, user=username, password=password, dn_no=dn_no)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require dn_no parameter.')
 
 
-class EmpDnBetweenDate(object):
+class Emp_Dn_Between_Date(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -569,14 +569,13 @@ class EmpDnBetweenDate(object):
             response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
         else:
             password, emp_no = password.split(':')
-            print(password,emp_no)
             params = dict({})
             for key, value in req.params.items():
                 params.update({key: value})
             if ('begin_date' in params) and ('end_date' in params):
                 begin_date = params['begin_date']
                 end_date = params['end_date']
-                data = eDnDate.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date, emp_no=emp_no)
+                data = EmpDnBetweenDate.get_data(self, user=username, password=password, begin_date=begin_date, end_date= end_date, emp_no=emp_no)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date emp_no parameter.')
@@ -586,7 +585,7 @@ class HereReverseGeoLocation(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -610,7 +609,7 @@ class HereRouteSummary(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -630,11 +629,11 @@ class HereRouteSummary(object):
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require latitude longitude acc parameters.')
 
 
-class TruckPosition(object):
+class Truck_Position(object):
 
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
-        response(resp, 'GET, OPTIONS', falcon.HTTP_201, data)
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
     def on_get(self, req, resp):
         username, password = getUserPass(req)
@@ -646,39 +645,61 @@ class TruckPosition(object):
                 params.update({key: value})
             if 'vehicles' in params:
                 vehicles = params['vehicles']
-                data = tPos.get_data(self, user=username, password=password, vehicles=vehicles)
+                data = TruckPosition.get_data(self, user=username, password=password, vehicles=vehicles)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require vehicles parameter.')
 
 
+class DN_Timestamp(object):
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'POST, OPTIONS', falcon.HTTP_200, data)
+
+    def on_post(self, req, resp, **kwargs):
+        username, password = getUserPass(req)
+        login = Login_Postgres(user=username, password=password)
+        is_login = json.loads(login.login().decode('utf-8'))
+        if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|'.find(username) > 0):
+            # jsonParams = json.loads(req.media)
+            jsonParams = req.media
+            #data = DNTimestamp.put_data(self,jsonParams)
+            data = jsonParams
+            # response(resp, 'POST, OPTIONS', falcon.HTTP_200, json.dumps(data).encode('utf-8'))
+            data = DNTimestamp.put_data(self,data)
+            response(resp, 'POST, OPTIONS', falcon.HTTP_201, json.dumps('{"post":"success"}'))
+        else:
+            response(resp, 'POST OPTIONS', falcon.HTTP_404, 'error: User can not login.')
+
+
 app = application = falcon.API()
 # -----------------------------------------------------------------------
 chkUser = Login()
-getSumLh_dn = GetSumLH_dn()
-getSumSubLh_dn = GetSumSubLh_dn()
-getSumProduct = GetSumProduct()
-getSumSubProduct = GetSumSubProduct()
-getSumFactoryProduct = GetSumFactoryProduct()
-getCusOrder = GetCusOrder()
-getReceivers = GetReceivers()
-getSendDocument = GetSendDocument()
-getTrucksPerDay = GetTrucksPerDay()
-getDNRoundTrip = GetDNRoundTrip()
-getDNRoundTripDetail = GetDNRoundTripDetail()
-getEmpInMonth = GetEmpInMonth()
+getSumLh_dn = Get_Sum_LH_dn()
+getSumSubLh_dn = Get_Sum_Sub_Lh_dn()
+getSumProduct = Get_Sum_Product()
+getSumSubProduct = Get_Sum_Sub_Product()
+getSumFactoryProduct = Get_Sum_Factory_Product()
+getCusOrder = Get_Cus_Order()
+getReceivers = Get_Receivers()
+getSendDocument = Get_Send_Document()
+getTrucksPerDay = Get_Trucks_Per_Day()
+getDNRoundTrip = Get_DN_Round_Trip()
+getDNRoundTripDetail = Get_DN_Round_Trip_Detail()
+getEmpInMonth = Get_Emp_In_Month()
 getAllDnInMonthByEmp = GetAllDnInMonthByEmp()
-getEmpWorksBetweenDate = GetEmpWorksBetweenDate()
-driverDNperDay = DriverDNperDay()
-chkDNError = CheckDNError()
-qryAllowanceByEmp = QryAllowanceByEmp()
-getTonKM = AllTonKM()
-routeForTimestamp = RouteForTimestamp()
-routeForTimestampDN = RouteForTimestampDn()
-empDnBetweenDate = EmpDnBetweenDate()
+getEmpWorksBetweenDate = Get_Emp_Works_Between_Date()
+driverDNperDay = Driver_DN_Per_Day()
+chkDNError = Check_DN_Error()
+qryAllowanceByEmp = Qry_Allowance_By_Emp()
+getTonKM = All_Ton_KM()
+routeForTimestamp = Route_For_Timestamp()
+routeForTimestampDN = Route_For_Timestamp_Dn()
+empDnBetweenDate = Emp_Dn_Between_Date()
 hereReverseGeoLocation = HereReverseGeoLocation()
 hereRouteSummary = HereRouteSummary()
-truckPosition = TruckPosition()
+truckPosition = Truck_Position()
+dnTimestamp = DN_Timestamp()
 # -----------------------------------------------------------------------
 app.add_route('/api_v3/chkUser', chkUser)
 app.add_route('/api_v3/getSumLh_dn', getSumLh_dn)
@@ -705,4 +726,4 @@ app.add_route('/api_v3/empDnBetweenDate', empDnBetweenDate)
 app.add_route('/api_v3/reverseGeoLocation', hereReverseGeoLocation)
 app.add_route('/api_v3/routeSummary', hereRouteSummary)
 app.add_route('/api_v3/truckPositions', truckPosition)
-# -----------------------------------------------------------------------
+app.add_route('/api_v3/dnTimestamp', dnTimestamp)

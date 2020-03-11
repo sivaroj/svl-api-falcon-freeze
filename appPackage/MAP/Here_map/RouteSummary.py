@@ -2,7 +2,7 @@ import requests
 import collections
 import json
 import appPackage.MAP.readConf as ReadConf
-from appPackage.MAP import convertTool
+from appPackage.MAP.convertTool import ConvertTool
 
 def RouteSummary(origin, destination, transportMode):
     m = ReadConf.ReadConf().here_map()
@@ -16,8 +16,8 @@ def RouteSummary(origin, destination, transportMode):
     data['origin'] = origin
     data['destination'] = destination
     data['transportMode'] = transportMode
-    data['duration'] = convertTool.convertTimeFormat(duration)
-    data['distance'] = distance/1000
-    data['baseDuration'] = convertTool.convertTimeFormat(baseDuration)
+    data['duration'] = ConvertTool.convertTimeFormat(duration)
+    data['distance'] = distance
+    data['baseDuration'] = ConvertTool.convertTimeFormat(baseDuration)
     return json.dumps(data, indent=" ", ensure_ascii=False).encode('utf-8')
-    # return distance, travel_time
+    # return distance m, travel_time hh:mm:ss

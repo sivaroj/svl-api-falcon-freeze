@@ -1,6 +1,6 @@
 import time
 import arrow
-class convertTool():
+class ConvertTool():
     def __init__(self):
         pass
 

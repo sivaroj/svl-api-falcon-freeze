@@ -668,7 +668,7 @@ class DN_Timestamp(object):
             data = jsonParams
             # response(resp, 'POST, OPTIONS', falcon.HTTP_200, json.dumps(data).encode('utf-8'))
             data = DNTimestamp.put_data(self,data)
-            response(resp, 'POST, OPTIONS', falcon.HTTP_201, data)
+            response(resp, 'POST, OPTIONS', falcon.HTTP_201, json.dumps('{"post":"success"}'))
         else:
             response(resp, 'POST OPTIONS', falcon.HTTP_404, 'error: User can not login.')
 

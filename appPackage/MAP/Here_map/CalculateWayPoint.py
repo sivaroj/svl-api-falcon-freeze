@@ -2,7 +2,7 @@ import requests
 import collections
 import json
 import appPackage.MAP.readConf as ReadConf
-import appPackage.MAP.convertTool as cTime
+from appPackage.MAP.convertTool import ConvertTool
 
 
 def CalculateWayPoint(waypoint0,waypoint1,mode):
@@ -13,7 +13,7 @@ def CalculateWayPoint(waypoint0,waypoint1,mode):
     route = r.json()
     distance = route['response']['route'][0]['summary']['distance']
     seconds = route['response']['route'][0]['summary']['travelTime']
-    travel_time = cTime.convertTimeFormat(seconds)
+    travel_time = ConvertTool.convertTimeFormat(seconds)
     data = collections.OrderedDict()
     data['waypoint0'] = waypoint0
     data['waypoint1'] = waypoint1
