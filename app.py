@@ -666,8 +666,8 @@ class DN_Timestamp(object):
             #data = DNTimestamp.put_data(self,jsonParams)
             data = jsonParams
             # response(resp, 'POST, OPTIONS', falcon.HTTP_200, json.dumps(data).encode('utf-8'))
-            data = DNTimestamp.put_data(self,data)
-            response(resp, 'POST, OPTIONS', falcon.HTTP_201, json.dumps('{"post":"success"}'))
+            data = DNTimestamp.put_data(self, username, password, data)
+            response(resp, 'POST, OPTIONS', falcon.HTTP_201, json.loads(json.dumps('{"post":"success"}').encode('utf-8')))
         else:
             response(resp, 'POST OPTIONS', falcon.HTTP_404, 'error: User can not login.')
 
@@ -727,3 +727,4 @@ app.add_route('/api_v3/reverseGeoLocation', hereReverseGeoLocation)
 app.add_route('/api_v3/routeSummary', hereRouteSummary)
 app.add_route('/api_v3/truckPositions', truckPosition)
 app.add_route('/api_v3/dnTimestamp', dnTimestamp)
+# -----------------------------------------------------------------------
