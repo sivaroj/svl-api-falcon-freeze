@@ -7,6 +7,10 @@ import arrow
 from .readConf import ReadConf
 from .login_Postgres import Login_Postgres
 
+def find_in_out(dn_no, source_point):
+    qryStr = ReadConf().qry_in_out()['Query']
+    param = {'dn_no': dn_no, 'source_point': source_point}
+
 class RouteForTimestampDn:
     def __init__(self):
         pass
@@ -69,6 +73,9 @@ class RouteForTimestampDn:
                     t['SOURCE_ADDR3'] = row[11]
                     t['LAT_LNG'] = row[12]
                     t['REMARK'] = row[13]
+                    # ---- หา max(IN_OUT ของ (postgres12) dn_timestamp.IN_OUT ที่ dn_no และ source_point เท่ากัน
+                    t['IN'] = False
+                    t['OUT'] = False
                     dn.append(t)
                 emp['DN'] = dn
                 cursor.close()

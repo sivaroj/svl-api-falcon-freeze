@@ -12,15 +12,18 @@ class ReadConf():
         self.conf._interpolation = configparser.ExtendedInterpolation()
         self.conf.read(str(file_name), encoding='utf-8')  # if use unicode utf-8
 
+    # ----------------   Postgresql v 12 server 192.168.0.191 -------------------------
     def postgres12(self):
         return {'DB': 'Postgresql', 'server':  self.conf.get('PostgresqlV12', 'server'), 'port': self.conf.get('PostgresqlV12', 'port'),
                 'database': self.conf.get('PostgresqlV12', 'database')}
 
     def ins_dn_timestamp(self):
         msg = self.conf.get('Query', 'ins_dn_timestamp')
-        print(msg)
         return {'Query': msg }
 
+    def qry_in_out(self):
+        return {'Query': self.conf.get('Query', 'qry_in_out')}
+    #------------------------------------------------------------------------------------------
     def postgres(self):
         return {'DB': 'Postgresql', 'server':  self.conf.get('Postgresql', 'server'), 'port': self.conf.get('Postgresql', 'port'),
                 'database': self.conf.get('Postgresql', 'database')}
