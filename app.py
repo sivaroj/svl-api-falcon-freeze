@@ -549,9 +549,10 @@ class Route_For_Timestamp_Dn(object):
             params = dict({})
             for key, value in req.params.items():
                 params.update({key: value})
-            if 'dn_no' in params:
+            if ('dn_no' in params) and ('emp_no' in params):
                 dn_no = params['dn_no']
-                data = RouteForTimestampDn.get_data(self, user=username, password=password, dn_no=dn_no)
+                emp_no = params['emp_no']
+                data = RouteForTimestampDn.get_data(self, user=username, password=password, dn_no=dn_no, emp_no=emp_no)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require dn_no parameter.')
@@ -727,4 +728,3 @@ app.add_route('/api_v3/reverseGeoLocation', hereReverseGeoLocation)
 app.add_route('/api_v3/routeSummary', hereRouteSummary)
 app.add_route('/api_v3/truckPositions', truckPosition)
 app.add_route('/api_v3/dnTimestamp', dnTimestamp)
-# -----------------------------------------------------------------------

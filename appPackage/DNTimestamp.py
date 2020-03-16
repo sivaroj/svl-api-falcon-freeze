@@ -13,9 +13,10 @@ def convert_truck(t):
     if suffix.__len__() < 3:
         v_truck_no = prefix + '0' + suffix
     return v_truck_no
+
 class DNTimestamp:
 
-    def put_data(self, user,password,body):
+    def put_data(self, user, password, body):
         source_latlng = body['LAT_LNG']
         mode = 'fastest;truck;traffic:enabled'
         data = collections.OrderedDict(body)
@@ -40,22 +41,22 @@ class DNTimestamp:
         login = Login_Postgres(user=user, password=password)
         is_login = json.loads(login.login().decode('utf-8'))
         if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|'.find(user) > 0):
-            qryStr = ReadConf().ins_dn_timestamp()['Query']
             pg = ReadConf().postgres12()
             conn = psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user= user, password= password)
             conn.autocommit = False
             try:
                 cursor = conn.cursor()
                 json_data = json.dumps(data,ensure_ascii=False,indent=None).encode('utf-8').decode('utf-8')
-                qryStr = qryStr.replace('{{data}}',json_data)
+                qryStr = ReadConf().ins_dn_timestamp()['Query']
+                qryStr = qryStr.replace('{{data}}', json_data)
                 cursor.execute(qryStr)
-                conn.commit()
                 return json.dumps('{"insert": "successful"}',ensure_ascii=False).encode(encoding='utf-8')
             except psycopg2.Error as e:
                 return json.dumps({'login': e.pgerror, 'company': '', 'status': ''}, indent=" ",
                                   ensure_ascii=False).encode(encoding='utf-8')
             finally:
                 if conn is not None:
+                    conn.commit()
                     conn.close()
         else:
             return json.dumps({'login': 'สิทธิการเข้าถึงข้อมูลถูกจำกัด'}).encode('utf-8')

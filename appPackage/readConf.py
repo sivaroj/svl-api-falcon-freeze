@@ -23,7 +23,7 @@ class ReadConf():
 
     def qry_in_out(self):
         return {'Query': self.conf.get('Query', 'qry_in_out')}
-    #------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
     def postgres(self):
         return {'DB': 'Postgresql', 'server':  self.conf.get('Postgresql', 'server'), 'port': self.conf.get('Postgresql', 'port'),
                 'database': self.conf.get('Postgresql', 'database')}
