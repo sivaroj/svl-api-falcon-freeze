@@ -5,14 +5,15 @@ from .readConf import ReadConf
 from .login_Postgres import Login_Postgres
 
 
-class GET_DN_TRUCK:
+class GetDnTruck:
     def __init__(self):
-        self.pg = ReadConf().postgres()
+        pass
 
-    def get_data(self,user, password, dn_date):
+    def get_data(self, user, password, dn_date):
         conn = None
-        logservr = Login_Postgres()
-        is_login = json.loads(logservr.login(user, password))
+        pg = ReadConf().postgres()
+        login = Login_Postgres(user=user, password=password)
+        is_login = json.loads(login.login().decode('utf-8'))
         if is_login['login'] == 'True':
             SQL_JOB = ReadConf().qryDnTrucks()['Query']
             SQL_DETAIL = ReadConf().qryCoilsOnTruck()['Query']
@@ -29,7 +30,7 @@ class GET_DN_TRUCK:
                 SQL_JOB = SQL_JOB.replace('{{inner_join_sub}}', '')
                 SQL_JOB = SQL_JOB.replace('{{factory}}', '')
             try:
-                conn = psycopg2.connect(host=self.pg['server'], port=self.pg['port'], database=self.pg['database'],
+                conn = psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'],
                                         user=user, password=password)
                 cursor = conn.cursor()
                 cursor2 = conn.cursor()

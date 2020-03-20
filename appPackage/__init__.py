@@ -11,6 +11,7 @@ from .GetCusOrder import GetCusOrder
 from .GetReceivers import GetReceivers
 from .GetSendDocument import GetSendDocument
 from .GetTrucksPerDay import GetTrucksPerDay
+from .GetDnTruck import GetDnTruck
 from .GetDNRoundTrips import GetDNRoundTrips
 from .GetDNRoundTripDetail import GetDNRoundTripDetail
 from .GetEmpInMonth import GetEmpInMonth

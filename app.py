@@ -11,6 +11,7 @@ from appPackage import GetCusOrder
 from appPackage import GetReceivers
 from appPackage import GetSendDocument
 from appPackage import GetTrucksPerDay
+from appPackage import GetDnTruck
 from appPackage import GetDNRoundTrips
 from appPackage import GetDNRoundTripDetail
 from appPackage import GetEmpInMonth
@@ -273,7 +274,6 @@ class Get_Send_Document(object):
 
 
 class Get_Trucks_Per_Day(object):
-
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
         response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
@@ -287,8 +287,29 @@ class Get_Trucks_Per_Day(object):
             for key, value in req.params.items():
                 params.update({key: value})
             if 'work_date' in params:
-                work_date = params['work_date']
+                work_date = params['dn_date']
                 data = GetTrucksPerDay.get_data(self, user=username, password=password, dn_date=work_date)
+                response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+            else:
+                response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
+
+
+class Get_DN_Truck(object):
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+    def on_get(self, req, resp):
+        username, password = getUserPass(req)
+        if (username is None) or (password is None):
+            response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
+        else:
+            params = dict({})
+            for key, value in req.params.items():
+                params.update({key: value})
+            if 'dn_date' in params:
+                dn_date = params['dn_date']
+                data = GetDnTruck.get_data(self, user=username, password=password, dn_date=dn_date)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
@@ -390,7 +411,7 @@ class Get_All_Dn_In_Month_By_Emp(object):
             if type(date_of_work)==type(None) or (type(emp_no)==type(None) and type(id_card)==type(None)):
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require date_of_work emp_no id_card parameters.')
             else:
-                data = gAllEmp.get_data(self, user=username, password=password, date_of_work=date_of_work, emp_no=emp_no, id_card=id_card)
+                data = GetAllDnInMonthByEmp.get_data(self, user=username, password=password, date_of_work=date_of_work, emp_no=emp_no, id_card=id_card)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
 
@@ -685,6 +706,7 @@ getCusOrder = Get_Cus_Order()
 getReceivers = Get_Receivers()
 getSendDocument = Get_Send_Document()
 getTrucksPerDay = Get_Trucks_Per_Day()
+getDnTruck = Get_DN_Truck()
 getDNRoundTrip = Get_DN_Round_Trip()
 getDNRoundTripDetail = Get_DN_Round_Trip_Detail()
 getEmpInMonth = Get_Emp_In_Month()
@@ -712,6 +734,7 @@ app.add_route('/api_v3/getCusOrder', getCusOrder)
 app.add_route('/api_v3/getReceivers', getReceivers)
 app.add_route('/api_v3/getSendDocument', getSendDocument)
 app.add_route('/api_v3/getTrucksPerDay', getTrucksPerDay)
+app.add_route('/api_v3/getDnTruck', getDnTruck)
 app.add_route('/api_v3/getDNRoundTrip', getDNRoundTrip)
 app.add_route('/api_v3/getDNRoundTrip_detail', getDNRoundTripDetail)
 app.add_route('/api_v3/getEmpInMonth', getEmpInMonth)
