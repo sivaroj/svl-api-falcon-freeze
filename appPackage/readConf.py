@@ -122,3 +122,6 @@ class ReadConf():
 
     def qryEmpDnBetweenDate(self):
         return {'Query': self.conf.get('Query', 'qryEmpDnBetweenDate')}
+
+    def qryGetDNTimeStamp(self):
+        return {'Query': self.conf.get('Query', 'getDNTimeStamp')}

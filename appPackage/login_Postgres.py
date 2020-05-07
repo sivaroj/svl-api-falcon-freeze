@@ -12,7 +12,7 @@ class Login_Postgres:
         pg = ReadConf().postgres()
         conn = None
         try:
-            conn = psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user= self.user, password=self.password)
+            conn = psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user=self.user, password=self.password)
             cur = conn.cursor()
             cur.execute("""select company,status from loginsvlfirst where username=%(username)s """,
                         {'username': self.user})

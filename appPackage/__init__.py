@@ -26,3 +26,4 @@ from .RouteForTimestampDn import RouteForTimestampDn
 from .EmpDnBetweenDate import EmpDnBetweenDate
 from .TruckPosition import TruckPosition
 from .DNTimestamp import DNTimestamp
+from .GetDNTimeStamp import GetDNTimeStamp

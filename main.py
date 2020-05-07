@@ -28,6 +28,7 @@ from appPackage import EmpDnBetweenDate
 from appPackage.MAP import Here_map
 from appPackage import TruckPosition
 from appPackage import DNTimestamp
+from appPackage import GetDNTimeStamp
 
 
 def response(resp, methods, status, data):
@@ -683,7 +684,7 @@ class DN_Timestamp(object):
         username, password = getUserPass(req)
         login = Login_Postgres(user=username, password=password)
         is_login = json.loads(login.login().decode('utf-8'))
-        if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|'.find(username) > 0):
+        if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr'.find(username) > 0):
             # jsonParams = json.loads(req.media)
             jsonParams = req.media
             #data = DNTimestamp.put_data(self,jsonParams)
@@ -694,6 +695,25 @@ class DN_Timestamp(object):
         else:
             response(resp, 'POST OPTIONS', falcon.HTTP_404, 'error: User can not login.')
 
+class Get_DN_TimeStamp:
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+    def on_get(self, req, resp):
+        username, password = getUserPass(req)
+        if (username is None) or (password is None):
+            response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
+        else:
+            params = dict({})
+            for key, value in req.params.items():
+                params.update({key: value})
+            if ('dn_no' in params) :
+                dn_no = params['dn_no']
+                data = GetDNTimeStamp.get_data(self, user=username, password=password, dn_no=dn_no)
+                response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+            else:
+                response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require dn_no parameter.')
 
 app = application = falcon.API()
 # -----------------------------------------------------------------------
@@ -724,6 +744,7 @@ hereReverseGeoLocation = HereReverseGeoLocation()
 hereRouteSummary = HereRouteSummary()
 truckPosition = Truck_Position()
 dnTimestamp = DN_Timestamp()
+getDNTimeStamp = Get_DN_TimeStamp()
 # -----------------------------------------------------------------------
 app.add_route('/api_v3/chkUser', chkUser)
 app.add_route('/api_v3/getSumLh_dn', getSumLh_dn)
@@ -752,6 +773,7 @@ app.add_route('/api_v3/reverseGeoLocation', hereReverseGeoLocation)
 app.add_route('/api_v3/routeSummary', hereRouteSummary)
 app.add_route('/api_v3/truckPositions', truckPosition)
 app.add_route('/api_v3/dnTimestamp', dnTimestamp)
+app.add_route('/api_v3/getDNTimeStamp',getDNTimeStamp)
 # -----------------------------------------------------------------------
 if __name__ == '__main__':
     http = simple_server.make_server('0.0.0.0', 6000, app)

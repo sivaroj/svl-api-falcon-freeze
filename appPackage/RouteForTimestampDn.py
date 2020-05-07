@@ -39,7 +39,8 @@ class RouteForTimestampDn:
                 # ---- 1 หา DN ว่ามีใน postgresql12 dn_timestamp หรือไม่ -------------------------------------
                 # ------   1.1 ถ้ามี อ่านค่า dn_timestamp.md5 (ทุก row ต้องมีค่าเท่ากัน)
                 # ------   1.2 ถ้าไม่เคยมีมาก่อน คำนวณ md5 จาก dn+':'+dn_date ตั่วอย่าง 2003110093:11/03/2020 นำไปคำนวณค่า md5
-                pg = ReadConf().postgres12()  # new server postgresql v 12
+                # ------ pg = ReadConf().postgres12()  # new server postgresql v 12
+                pg = ReadConf().postgres()
                 conn =psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user=user, password=password)
                 cursor = conn.cursor()
                 qryStr = ReadConf().qry_in_out()['Query']
@@ -74,8 +75,6 @@ class RouteForTimestampDn:
                 dn = []
                 i = 0
                 records = cursor.fetchall()
-                print(last_dn_order,last_in_out)
-                print('total rows : ',len(records))
                 for row in records:
                     emp['EMP_NO'] = row[0]
                     emp['ID_CARD'] = row[1]
@@ -137,7 +136,6 @@ class RouteForTimestampDn:
                 cursor.close()
                 return json.dumps(emp, indent=" ", ensure_ascii=False).encode('utf-8')
             except cx_Oracle.DatabaseError as e:
-                # print(e.args[0].message)
                 data['driver'] = e.args[0].message
                 data['truck_no'] = 'ไม่พบข้อมูล'
                 data['dn_chain'] = 'ไม่พบข้อมูล'

@@ -41,7 +41,8 @@ class DNTimestamp:
         login = Login_Postgres(user=user, password=password)
         is_login = json.loads(login.login().decode('utf-8'))
         if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|'.find(user) > 0):
-            pg = ReadConf().postgres12()
+            #-- pg = ReadConf().postgres12() server ใหม่ทำงานผ่าน ทดสอบเป็น server เดิมด้วย
+            pg = ReadConf().postgres()
             conn = psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user= user, password= password)
             conn.autocommit = False
             try:
