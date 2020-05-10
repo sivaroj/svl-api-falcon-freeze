@@ -1,0 +1,36 @@
+[
+  {"car_regis_no":"70-1602ปข","driver":"อุกฤษณ์ พร้อมมูล","tel":"092-4098870","coils":2,"weight":31.172,
+    "coildetail":[
+        {"product":"HRC","coil_no":"1201400593","thk":1.9,"wid":1219,"wgt":9.847},
+        {"product":"HRC","coil_no":"1203440081","thk":6,"wid":1219,"wgt":21.325}
+    ]
+  },
+  {"car_regis_no":"70-3344","driver":"โสฬส ชื่นสกุล","tel":"082-2446047","coils":3,"weight":30.470,
+    "coildetail":[
+        {"product":"HRC","coil_no":"1203090231","thk":2,"wid":1219,"wgt":17.865},
+        {"product":"HRC","coil_no":"1202280253","thk":2.3,"wid":1219,"wgt":7.915},
+        {"product":"HRC","coil_no":"1203090353","thk":2.6,"wid":985,"wgt":4.69}
+    ]
+  },
+  {"car_regis_no":"70-4540นศ","driver":"บุญโชติ ม่วงงาม","tel":"087-0991321","coils":3,"weight":32.81,
+    "coildetail":[
+      {"product":"HRC","coil_no":"1203300305","thk":1.15,"wid":1185,"wgt":3.85},
+      {"product":"HRC","coil_no":"1202460011","thk":2.8,"wid":1237,"wgt":21.31},
+      {"product":"HRC","coil_no":"1203070495","thk":2.4,"wid":1219,"wgt":7.65}
+    ]
+  },
+  {"car_regis_no":"70-5235","driver":"ธีระวัชร์ สันคุ้ม","tel":"098-8523532","coils":3,"weight":31.580,
+    "coildetail":[
+      {"product":"HRC","coil_no":"1202350235","thk":2,"wid":1218,"wgt":9.395},
+      {"product":"HRC","coil_no":"1203430271","thk":2.9,"wid":1219,"wgt":19.195},
+      {"product":"HRC","coil_no":"1202660083","thk":6,"wid":1219,"wgt":2.99}
+    ]
+  }
+,{"car_regis_no":"70-5818ปข","driver":"สวัสดิ์ ศรีแก้ว","tel":"080-0096279","coils":3,"weight":32.855,
+  "coildetail":[
+    {"product":"HRC","coil_no":"119M080101","thk":6,"wid":1524,"wgt":13.155},
+    {"product":"HRC","coil_no":"1201410145","thk":1.9,"wid":1219,"wgt":9.827},
+    {"product":"HRC","coil_no":"1201410113","thk":1.9,"wid":1219,"wgt":9.873}
+  ]
+},
+  {"car_regis_no":"70-5835ปข","driver":"อลงกรณ์ เอื้อมเก็บ","tel":"0614629926","coils":2,"weight":32.260,"coildetail":[{"product":"HRC","coil_no":"1201410115","thk":1.9,"wid":1219,"wgt":9.885}, {"product":"HRC","coil_no":"1202290471","thk":4.3,"wid":1225,"wgt":22.375}]},{"car_regis_no":"70-5888พบ","driver":"เลอศักดิ์ ชื่นใจ","tel":"061-5851587","coils":2,"weight":31.637,"coildetail":[{"product":"HRC","coil_no":"1201410143","thk":1.9,"wid":1219,"wgt":9.837}, {"product":"HRC","coil_no":"119M130441","thk":1.4,"wid":1219,"wgt":21.8}]},{"car_regis_no":"70-6089","driver":"จำเริญ ทองกล่อม","tel":"093-6699815","coils":3,"weight":30.945,"coildetail":[{"product":"HRC","coil_no":"1201400595","thk":1.9,"wid":1219,"wgt":9.895}, {"product":"HRC","coil_no":"1202300211","thk":11.8,"wid":1254,"wgt":13.215}, {"product":"HRC","coil_no":"1202610419","thk":1.2,"wid":1219,"wgt":7.835}]},{"car_regis_no":"70-7134พบ","driver":"สมเกียรติ แซ่ตัน","tel":"092-4058779","coils":2,"weight":29.975,"coildetail":[{"product":"HRC","coil_no":"1202280291","thk":2,"wid":1219,"wgt":19.715}, {"product":"HRC","coil_no":"1202600065","thk":2.3,"wid":1219,"wgt":10.26}]},{"car_regis_no":"71-2064สป","driver":"ศุภโชค ผลคิด","tel":"090-4989325","coils":3,"weight":31.520,"coildetail":[{"product":"HRC","coil_no":"1203340501","thk":1.7,"wid":1185,"wgt":20.015}, {"product":"HRC","coil_no":"1203030173","thk":2,"wid":1336,"wgt":8.93}, {"product":"HRC","coil_no":"1203580145","thk":1.9,"wid":1280,"wgt":2.575}]}]

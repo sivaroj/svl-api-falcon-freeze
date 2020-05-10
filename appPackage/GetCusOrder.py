@@ -18,17 +18,22 @@ class GetCusOrder:
             SQL_JOB = ReadConf().qryGetCusOrder()['Query']
             SQL_JOB2 = ReadConf().qryGetCusOrderDtl()['Query']
             if is_login['status'] in ['2', 's']:
-                SQL_JOB = SQL_JOB.replace('{{inner_join_sub}}',
-                                          'inner join line_lh_car_regis lg on lg.car_regis = l.car_regis_no and lg.status=\'N\'' +
-                                          'and lg.customer_no ~ \'(^' + is_login['company'] + ')\''
-                                          )
+                inner_join = ' and lg.customer_no ~ \'(^' + is_login['company'] + ')\' '
+                SQL_JOB = SQL_JOB.replace('{{inner_join_sub}}',inner_join)
                 SQL_JOB = SQL_JOB.replace('{{factory}}', '')
+                SQL_JOB2 = SQL_JOB2.replace('{{inner_join_sub}}', inner_join)
+                SQL_JOB2 = SQL_JOB2.replace('{{factory}}', '')
             elif is_login['status'] == '1':
+                factory = 'and l.customer_no =\'' + is_login['company'] + '\''
                 SQL_JOB = SQL_JOB.replace('{{inner_join_sub}}', '')
-                SQL_JOB = SQL_JOB.replace('{{factory}}', 'and l.customer_no =\'' + is_login['company'] + '\'')
+                SQL_JOB = SQL_JOB.replace('{{factory}}', factory)
+                SQL_JOB2 = SQL_JOB2.replace('{{inner_join_sub}}', '')
+                SQL_JOB2 = SQL_JOB2.replace('{{factory}}', factory)
             else:
                 SQL_JOB = SQL_JOB.replace('{{inner_join_sub}}', '')
                 SQL_JOB = SQL_JOB.replace('{{factory}}', '')
+                SQL_JOB2 = SQL_JOB2.replace('{{inner_join_sub}}', '')
+                SQL_JOB2 = SQL_JOB2.replace('{{factory}}', '')
             try:
                 conn = psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'],
                                         user=user, password=password)
@@ -39,14 +44,20 @@ class GetCusOrder:
                 cusOrderArray = []
                 for row in cursor:
                     t = collections.OrderedDict()
+                    t['COMPANY'] = row[4]
                     t['CUS'] = row[0]
                     t['RECEIVER'] = row[1]
                     t['TRUCKS'] = row[2]
                     t['WEIGHT'] = row[3]
-                    parameter_coil = {'dn_date': dn_date, 'customer_no': is_login['company'], 'cus': row[0],
-                                      'receiver': row[1]}
-                    cursor2.execute(SQL_JOB2, parameter_coil)
-                    dtl = cursor2.fetchone()
+                    if row[0] is None:
+                        cus = 'and l.cus is null'
+                    else:
+                        cus = 'and l.cus = \'' + row[0] + '\''
+                    qry_dtl = SQL_JOB2.replace('{{cus}}',cus)
+                    parameter_dtl = {'dn_date': dn_date,'receiver': row[1]}
+                    cursor2.execute(qry_dtl, parameter_dtl)
+                    for row_dtl in cursor2:
+                        dtl = row_dtl[0]
                     t['trucks'] = dtl
                     cusOrderArray.append(t)
                 cursor.close()
