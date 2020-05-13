@@ -89,6 +89,7 @@ class RouteForTimestampDn:
                     t['MD5'] = md5
                     t['SOURCE_POINT'] = row[9]
                     t['SOURCE_NAME'] = row[10]
+                    t['SOURCE_ADDR'] = row[15]
                     t['SOURCE_ADDR3'] = row[11]
                     t['LAT_LNG'] = row[12]
                     t['REMARK'] = row[13]
