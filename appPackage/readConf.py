@@ -125,3 +125,9 @@ class ReadConf():
 
     def qryGetDNTimeStamp(self):
         return {'Query': self.conf.get('Query', 'getDNTimeStamp')}
+
+    def qryEmpPaymentLH(self):
+        return {'Query': self.conf.get('Query', 'qryEmpPaymentLH')}
+
+    def qryEmpFixTire(self):
+        return {'Query': self.conf.get('Query', 'qryEmpFixTire')}
