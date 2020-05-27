@@ -40,11 +40,22 @@ class RouteForTimestampDn:
                 # ------   1.1 ถ้ามี อ่านค่า dn_timestamp.md5 (ทุก row ต้องมีค่าเท่ากัน)
                 # ------   1.2 ถ้าไม่เคยมีมาก่อน คำนวณ md5 จาก dn+':'+dn_date ตั่วอย่าง 2003110093:11/03/2020 นำไปคำนวณค่า md5
                 # ------ pg = ReadConf().postgres12()  # new server postgresql v 12
+
+                # ---- 0 หา DN_CHAIN ที่เกี่ยวเนื่อง tonkm_package.find_dn_chain(dn_no) และตัด string เอา dn ตัวแรก
+                dsn_tns = cx_Oracle.makedsn(ora['server'], ora['port'], ora['service'])
+                ora_conn = cx_Oracle.connect(ora['user'], ora['password'], dsn_tns
+                                         , encoding="UTF-8")
+                ora_cursor = ora_conn.cursor()
+                ora_qryStr=ReadConf().find_dn_dhain()['Query']
+                parameters = {'dn_no': dn_no}
+                ora_cursor.execute(ora_qryStr,parameters)
+                first_dn = ora_cursor.fetchone()[0]
+                # print('first_dn {}'.format(first_dn))
                 pg = ReadConf().postgres()
                 conn =psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user=user, password=password)
                 cursor = conn.cursor()
                 qryStr = ReadConf().qry_in_out()['Query']
-                qryStr = qryStr.replace('{{dn_no}}', dn_no)
+                qryStr = qryStr.replace('{{dn_no}}', first_dn)
                 qryStr = qryStr.replace('{{emp_no}}', emp_no)
                 cursor.execute(qryStr)
                 result = cursor.fetchone()

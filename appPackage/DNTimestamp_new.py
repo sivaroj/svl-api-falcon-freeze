@@ -14,33 +14,46 @@ def convert_truck(t):
         v_truck_no = prefix + '0' + suffix
     return v_truck_no
 
-class DNTimestamp:
+
+class DNTimestamp_new:
 
     def put_data(self, user, password, body):
         source_latlng = body['LAT_LNG']
         mode = 'fastest;truck;traffic:enabled'
         data = collections.OrderedDict(body)
+
         # ------------- TRUCK_POSITION --------------------------------------
         truck_no = convert_truck(body['TRUCK_NO'])
         truck_position = json.loads(Nostra.BusNow(truck_no).decode('utf-8'))
+        # print('truck_no {} position {} '.format(truck_no,truck_position))
         truck_latlng = str(truck_position[0]['latitude']) + ',' + str(truck_position[0]['longitude'])
-        distance = json.loads(Here_map.CalculateWayPoint(truck_latlng, source_latlng, mode).decode('utf-8'))
-        far_from = {'distance': distance['distance'],'travel_time': distance['travel_time']}
+        # print('source {} dest {}'.format(source_latlng,truck_latlng))
+        try:
+            distance = json.loads(Here_map.CalculateWayPoint(truck_latlng, source_latlng, mode).decode('utf-8'))
+            far_from = {'distance': distance['distance'],'travel_time': distance['travel_time']}
+        except: #
+            far_from = {'distance': 0, 'travel_time': 0}
+
         t = collections.OrderedDict()
         t = truck_position[0]
         t['far_from'] = far_from
         data['TRUCK_POSITION'] = t
-        # ----------------- POSITION ---------------------------------------------
-        position_latlng = str(body['POSITION']['latitude']) + ',' + str(body['POSITION']['longitude'])
-        routeSummary = json.loads(Here_map.RouteSummary(origin=position_latlng,destination=source_latlng,transportMode='truck').decode('utf-8'))
-        position_far_from = {'distance': routeSummary['distance'],'travel_time': routeSummary['duration']}
+        # ----------------- MOBILE POSITION ---------------------------------------------
         old_position = data['POSITION']
+        source_latlng = data['LAT_LNG']
+        position_latlng = str(old_position['latitude'])+','+str(old_position['longitude'])
+        distance = json.loads(Here_map.CalculateWayPoint(position_latlng, source_latlng, mode).decode('utf-8'))
+        position_far_from = {'distance': distance['distance'],'travel_time': distance['travel_time']}
         old_position['far_from'] = position_far_from
+        mobile_addr = json.loads(
+            Here_map.ReverseGeoCoder(str(old_position['latitude']), str(old_position['longitude']), '1').decode('utf-8'))
+
+        old_position['address'] = mobile_addr['Address'][0]['label']
         data['POSITION'] = old_position
         # -----------------------INSERT TO POSTGRES-----------------------------------
         login = Login_Postgres(user=user, password=password)
         is_login = json.loads(login.login().decode('utf-8'))
-        if is_login['login'] == 'True' and ('|csdplan|hrconnect|line|hr|'.find(user) > 0):
+        if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|'.find(user) > 0):
             #-- pg = ReadConf().postgres12() server ใหม่ทำงานผ่าน ทดสอบเป็น server เดิมด้วย
             pg = ReadConf().postgres()
             conn = psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user= user, password= password)
@@ -51,16 +64,14 @@ class DNTimestamp:
                 qryStr = ReadConf().ins_dn_timestamp()['Query']
                 qryStr = qryStr.replace('{{data}}', json_data)
                 cursor.execute(qryStr)
+                # print(qryStr)
                 return json.dumps('{"insert": "successful"}',ensure_ascii=False).encode(encoding='utf-8')
-            except psycopg2.Error as e:
+            except (psycopg2.Error) as e:
                 return json.dumps({'login': e.pgerror, 'company': '', 'status': ''}, indent=" ",
-                                  ensure_ascii=False).encode(encoding='utf-8')
+                                ensure_ascii=False).encode(encoding='utf-8')
             finally:
                 if conn is not None:
                     conn.commit()
                     conn.close()
         else:
             return json.dumps({'login': 'สิทธิการเข้าถึงข้อมูลถูกจำกัด'}).encode('utf-8')
-
-
-

@@ -25,6 +25,7 @@ from .RouteForTimestamp import RouteForTimestamp
 from .RouteForTimestampDn import RouteForTimestampDn
 from .EmpDnBetweenDate import EmpDnBetweenDate
 from .TruckPosition import TruckPosition
-from .DNTimestamp import DNTimestamp
+#---- DNTimestamp ใช้แทน DNTimestamp เดิม
+from .DNTimestamp_new import DNTimestamp_new
 from .GetDNTimeStamp import GetDNTimeStamp
 from .GetEmpFromIdCard import GetEmpFromIdCard

@@ -6,18 +6,30 @@ from appPackage.MAP.convertTool import ConvertTool
 
 def RouteSummary(origin, destination, transportMode):
     m = ReadConf.ReadConf().here_map()
-    PARAMS = {'apiKey': m['apiKey'], 'origin': origin, 'destination': destination, 'transportMode': transportMode, 'return': 'summary'}
-    r = requests.get(url=m['routeURLv8'], params=PARAMS)
-    route = r.json()
-    duration = route['routes'][0]['sections'][0]['summary']['duration']
-    baseDuration = route['routes'][0]['sections'][0]['summary']['baseDuration']
-    distance = route['routes'][0]['sections'][0]['summary']['length']
-    data = collections.OrderedDict()
-    data['origin'] = origin
-    data['destination'] = destination
-    data['transportMode'] = transportMode
-    data['duration'] = ConvertTool.convertTimeFormat(duration)
-    data['distance'] = distance
-    data['baseDuration'] = ConvertTool.convertTimeFormat(baseDuration)
-    return json.dumps(data, indent=" ", ensure_ascii=False).encode('utf-8')
-    # return distance m, travel_time hh:mm:ss
+    if type(origin)!= type(None) or type(destination) != type(None) or\
+            (origin == 'null') or (destination == 'null')\
+            or (origin==',') or(destination==','):
+        data = collections.OrderedDict()
+        data['origin'] = origin
+        data['destination'] = destination
+        data['transportMode'] = ''
+        data['duration'] = ''
+        data['distance'] = ''
+        data['baseDuration'] = ''
+        return json.dumps(data, indent=" ", ensure_ascii=False).encode('utf-8')
+    else:
+        PARAMS = {'apiKey': m['apiKey'], 'origin': origin, 'destination': destination, 'transportMode': transportMode, 'return': 'summary'}
+        r = requests.get(url=m['routeURLv8'], params=PARAMS)
+        route = r.json()
+        duration = route['routes'][0]['sections'][0]['summary']['duration']
+        baseDuration = route['routes'][0]['sections'][0]['summary']['baseDuration']
+        distance = route['routes'][0]['sections'][0]['summary']['length']
+        data = collections.OrderedDict()
+        data['origin'] = origin
+        data['destination'] = destination
+        data['transportMode'] = transportMode
+        data['duration'] = ConvertTool.convertTimeFormat(duration)
+        data['distance'] = distance
+        data['baseDuration'] = ConvertTool.convertTimeFormat(baseDuration)
+        return json.dumps(data, indent=" ", ensure_ascii=False).encode('utf-8')
+        # return distance m, travel_time hh:mm:ss

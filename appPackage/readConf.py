@@ -131,3 +131,6 @@ class ReadConf():
 
     def qryEmpFixTire(self):
         return {'Query': self.conf.get('Query', 'qryEmpFixTire')}
+
+    def find_dn_dhain(self):
+        return {'Query': self.conf.get('Query', 'find_dn_dhain')}

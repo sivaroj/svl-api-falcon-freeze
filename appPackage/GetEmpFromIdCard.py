@@ -22,24 +22,31 @@ class GetEmpFromIdCard:
                 cursor = conn.cursor()
 
                 if type(id_card) != type(None):
-                    qryStr = 'select emp_no,name,surname,social_no from employee where social_no= '+id_card
-                    print(qryStr)
+                    qryStr = 'select emp_no,name,surname,social_no from employee where social_no= :id_card'
+                    parameter = {'id_card':id_card}
                 else:
-                    qryStr = 'select emp_no,name,surname,social_no from employee where emp_no= ' + emp_no
-                    print(qryStr)
-                cursor.execute(qryStr)
-                data = collections.OrderedDict()
+                    qryStr = 'select emp_no,name,surname,social_no from employee where emp_no= :emp_no'
+                    parameter = {'emp_no': emp_no}
+                cursor.execute(qryStr,parameter)
                 row = cursor.fetchone()
-                data = collections.OrderedDict()
-                data['emp_no'] = row[0]
-                data['name'] = row[1]+' '+row[2]
-                data['id_card'] = row[3]
+                if cursor.rowcount == 1:
+                    data = collections.OrderedDict()
+                    data['emp_no'] = row[0]
+                    data['name'] = row[1]+' '+row[2]
+                    data['id_card'] = row[3]
+                else:
+                    data = collections.OrderedDict()
+                    data['emp_no'] = ''
+                    data['name'] = 'ไม่พบข้อมููล'
+                    data['id_card'] = id_card
                 cursor.close()
                 return json.dumps(data, indent=" ", ensure_ascii=False).encode('utf-8')
             except cx_Oracle.DatabaseError as e:
                 print(e.args[0].message)
+                data = collections.OrderedDict()
                 data['emp_no'] = e.args[0].message
                 data['name'] = 'ไม่พบข้อมูล'
+                data['id_card'] = ''
                 return json.dumps(data, indent=" ", ensure_ascii=False).encode('utf-8')
             finally:
                 if conn is not None:

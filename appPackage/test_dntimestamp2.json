@@ -1,0 +1,38 @@
+{
+    "MD5": "8086f92090e2762419f3fd28cfe8f73e",
+    "DN_NO": "2005100029",
+    "EMP_NO": "B0211",
+    "IN_OUT": "1",
+    "DN_DATE": "10/05/2020",
+    "LAT_LNG": "11.23015,99.54419",
+    "DN_ORDER": 5,
+    "POSITION": {
+        "speed": "null",
+        "address": "542 ฉลองกรุง 23, ลำปลาทิว, ลาดกระบัง, กรุงเทพมหานคร 10520, ประเทศไทย",
+        "heading": "null",
+        "accuracy": "30",
+        "far_form": {
+            "distance": 412968,
+            "travel_time": "9:37:11"
+        },
+        "latitude": "13.75355",
+        "longitude": "100.79155",
+        "timestamp": "24/05/2020 08:00:47"
+    },
+    "TRUCK_NO": "L102",
+    "SOURCE_POINT": "YARDL",
+    "TRUCK_POSITION": {
+        "speed": 0,
+        "engine": 1,
+        "address": "คลองฉนาก, สุราษฎร์ธานี 84000, ประเทศไทย",
+        "heading": 95,
+        "vehicle": "L102",
+        "datetime": "24/05/2020 07:59:53",
+        "far_from": {
+            "distance": 315663,
+            "travel_time": "7:17:06"
+        },
+        "latitude": 9.158688,
+        "longitude": 99.382553
+    }
+}

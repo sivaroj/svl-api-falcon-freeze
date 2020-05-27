@@ -1,0 +1,38 @@
+{
+    "MD5": "950ec8c1cdca1b80d0d10567b09a3d5a",
+    "DN_NO": "2005050015",
+    "EMP_NO": "B0211",
+    "IN_OUT": "1",
+    "DN_DATE": "05/05/2020",
+    "LAT_LNG": "11.23015,99.54419",
+    "DN_ORDER": 5,
+    "POSITION": {
+        "speed": "null",
+        "address": "224 ฉลองกรุง 23, ลำปลาทิว, ลาดกระบัง, กรุงเทพมหานคร 10520, ประเทศไทย",
+        "heading": "null",
+        "accuracy": "20",
+        "far_from": {
+            "distance": 410619,
+            "travel_time": "9:29:19"
+        },
+        "latitude": "13.75350",
+        "longitude": "100.79155",
+        "timestamp": "05/05/2020 23:50:36"
+    },
+    "TRUCK_NO": "L102",
+    "SOURCE_POINT": "YARDL",
+    "TRUCK_POSITION": {
+        "speed": 0,
+        "engine": 0,
+        "address": "ชะอำ, เพชรบุรี 76120, ประเทศไทย",
+        "heading": 265,
+        "vehicle": "L102",
+        "datetime": "05/05/2020 23:50:07",
+        "far_from": {
+            "distance": 202277,
+            "travel_time": "4:47:43"
+        },
+        "latitude": 12.796361,
+        "longitude": 99.939398
+    }
+}

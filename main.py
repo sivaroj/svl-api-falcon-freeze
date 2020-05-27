@@ -27,9 +27,11 @@ from appPackage import RouteForTimestampDn
 from appPackage import EmpDnBetweenDate
 from appPackage.MAP import Here_map
 from appPackage import TruckPosition
-from appPackage import DNTimestamp
+# from appPackage import DNTimestamp
+from appPackage import DNTimestamp_new
 from appPackage import GetDNTimeStamp
 from appPackage import GetEmpFromIdCard
+
 
 def response(resp, methods, status, data):
     resp.set_header('Access-Control-Allow-Origin', '*')
@@ -690,7 +692,7 @@ class DN_Timestamp(object):
             #data = DNTimestamp.put_data(self,jsonParams)
             data = jsonParams
             # response(resp, 'POST, OPTIONS', falcon.HTTP_200, json.dumps(data).encode('utf-8'))
-            data = DNTimestamp.put_data(self, username, password, data)
+            data = DNTimestamp_new.put_data(self, username, password, data)
             response(resp, 'POST, OPTIONS', falcon.HTTP_201, json.loads(json.dumps('{"post":"success"}').encode('utf-8')))
         else:
             response(resp, 'POST OPTIONS', falcon.HTTP_404, 'error: User can not login.')
