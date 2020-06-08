@@ -29,3 +29,5 @@ from .TruckPosition import TruckPosition
 from .DNTimestamp_new import DNTimestamp_new
 from .GetDNTimeStamp import GetDNTimeStamp
 from .GetEmpFromIdCard import GetEmpFromIdCard
+from .GetTimestampByDate import GetTimestampByDate
+from .GetTimestampBetweenDate import GetTimestampBetweenDate

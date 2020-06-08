@@ -134,3 +134,9 @@ class ReadConf():
 
     def find_dn_dhain(self):
         return {'Query': self.conf.get('Query', 'find_dn_dhain')}
+
+    def qryTimestampByDate(self):
+        return {'Query': self.conf.get('Query', 'qryTimestampByDate')}
+
+    def qryTimestampBetweenDate(self):
+        return {'Query': self.conf.get('Query', 'qryTimestampBetweenDate')}

@@ -31,6 +31,8 @@ from appPackage import TruckPosition
 from appPackage import DNTimestamp_new
 from appPackage import GetDNTimeStamp
 from appPackage import GetEmpFromIdCard
+from appPackage import GetTimestampByDate
+from appPackage import  GetTimestampBetweenDate
 
 
 def response(resp, methods, status, data):
@@ -743,6 +745,63 @@ class Get_Emp_from_IdCard:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
 
+class getTimestampByDate:
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+    def on_get(self, req, resp):
+        username, password = getUserPass(req)
+        if (username is None) or (password is None):
+            response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
+        else:
+            params = dict({})
+            for key, value in req.params.items():
+                params.update({key: value})
+                if ('begin_date' in params) :
+                    begin_date = params['begin_date']
+                else:
+                    response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require dn_date parameter.')
+                if ('end_date' in params) :
+                    end_date = params['end_date']
+                else:
+                    end_date = begin_date
+                data = GetTimestampByDate.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
+                response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+
+class getTimesBetweenDate:
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+    def on_get(self, req, resp):
+        username, password = getUserPass(req)
+        if (username is None) or (password is None):
+            response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
+        else:
+            begin_date=''
+            end_date=''
+            emp_no=''
+            params = dict({})
+            for key, value in req.params.items():
+                params.update({key: value})
+                if ('begin_date' in params) :
+                    begin_date = params['begin_date']
+                else:
+                    response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require dn_date parameter.')
+                if ('end_date' in params) :
+                    end_date = params['end_date']
+                else:
+                    response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require end_date parameter.')
+                if ('emp_no' in params) :
+                    emp_no = params['emp_no']
+                else:
+                    response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require emp_no parameter.')
+                data = GetTimestampBetweenDate.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date,emp_no=emp_no)
+                response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+
 app = application = falcon.API()
 # -----------------------------------------------------------------------
 chkUser = Login()
@@ -774,6 +833,8 @@ truckPosition = Truck_Position()
 dnTimestamp = DN_Timestamp()
 getDNTimeStamp = Get_DN_TimeStamp()
 getEmpFromIdCard = Get_Emp_from_IdCard()
+gTimestampByDate = getTimestampByDate()
+gTimestampBetweenDate = getTimesBetweenDate()
 # -----------------------------------------------------------------------
 app.add_route('/api_v3/chkUser', chkUser)
 app.add_route('/api_v3/getSumLh_dn', getSumLh_dn)
@@ -804,6 +865,8 @@ app.add_route('/api_v3/truckPositions', truckPosition)
 app.add_route('/api_v3/dnTimestamp', dnTimestamp)
 app.add_route('/api_v3/getDNTimeStamp',getDNTimeStamp)
 app.add_route('/api_v3/getEmpFromIdCard',getEmpFromIdCard)
+app.add_route('/api_v3/getTimestampByDate',gTimestampByDate)
+app.add_route('/api_v3/getTimestampBetweenDate',gTimestampBetweenDate)
 # -----------------------------------------------------------------------
 if __name__ == '__main__':
     http = simple_server.make_server('0.0.0.0', 6000, app)

@@ -5,6 +5,8 @@ import collections
 import psycopg2
 from appPackage.readConf import ReadConf
 from appPackage.login_Postgres import Login_Postgres
+import arrow
+import time
 
 def convert_truck(t):
     v_truck_no = t
@@ -41,14 +43,17 @@ class DNTimestamp_new:
         # ----------------- MOBILE POSITION ---------------------------------------------
         old_position = data['POSITION']
         source_latlng = data['LAT_LNG']
+        dt = arrow.now
         position_latlng = str(old_position['latitude'])+','+str(old_position['longitude'])
         distance = json.loads(Here_map.CalculateWayPoint(position_latlng, source_latlng, mode).decode('utf-8'))
         position_far_from = {'distance': distance['distance'],'travel_time': distance['travel_time']}
+        old_position['timestamp'] = time.time()
         old_position['far_from'] = position_far_from
         mobile_addr = json.loads(
             Here_map.ReverseGeoCoder(str(old_position['latitude']), str(old_position['longitude']), '1').decode('utf-8'))
-
+        ts = arrow.now().format('YYYY-MM-DD HH:mm:ss')
         old_position['address'] = mobile_addr['Address'][0]['label']
+        old_position['timestamp'] = ts
         data['POSITION'] = old_position
         # -----------------------INSERT TO POSTGRES-----------------------------------
         login = Login_Postgres(user=user, password=password)
