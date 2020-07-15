@@ -5,9 +5,11 @@ import collections
 import psycopg2
 from appPackage.readConf import ReadConf
 from appPackage.login_Postgres import Login_Postgres
+from appPackage.ConvertUtil import ConvertUtil
 import arrow
 import time
 
+"""
 def convert_truck(t):
     v_truck_no = t
     prefix = t[:1]
@@ -15,7 +17,7 @@ def convert_truck(t):
     if suffix.__len__() < 3:
         v_truck_no = prefix + '0' + suffix
     return v_truck_no
-
+"""
 
 class DNTimestamp_new:
 
@@ -25,7 +27,7 @@ class DNTimestamp_new:
         data = collections.OrderedDict(body)
 
         # ------------- TRUCK_POSITION --------------------------------------
-        truck_no = convert_truck(body['TRUCK_NO'])
+        truck_no = ConvertUtil.convert_truck(body['TRUCK_NO'])
         truck_position = json.loads(Nostra.BusNow(truck_no).decode('utf-8'))
         # print('truck_no {} position {} '.format(truck_no,truck_position))
         truck_latlng = str(truck_position[0]['latitude']) + ',' + str(truck_position[0]['longitude'])

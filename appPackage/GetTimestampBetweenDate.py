@@ -3,12 +3,15 @@ import json
 import collections
 from .readConf import ReadConf
 from .login_Postgres import Login_Postgres
-
-
+from appPackage.ConvertUtil import  ConvertUtil
 class GetTimestampBetweenDate:
+
     def get_data(self,user,password,begin_date,end_date,emp_no):
         login = Login_Postgres(user=user, password=password)
         is_login = json.loads(login.login().decode('utf-8'))
+        # แปลง dd/mm/yyyy เป็น yyyy-mm-dd
+        bdate = ConvertUtil.dateBEtoAD(self, begin_date)
+        edate = ConvertUtil.dateBEtoAD(self, end_date)
         if is_login['login'] == 'True' and ('|csdplan|hrconnect|line|hr|'.find(user) > 0):
             conn = None
             try:
@@ -17,7 +20,8 @@ class GetTimestampBetweenDate:
                                         password=password)
                 cursor = conn.cursor()
                 qryStr = ReadConf().qryTimestampBetweenDate()['Query']
-                parameter = {'begin_date':begin_date, 'end_date':end_date,'emp_no':emp_no}
+                print(qryStr)
+                parameter = {'begin_date': bdate, 'end_date': edate, 'emp_no': emp_no}
                 cursor.execute(qryStr,parameter)
                 records = cursor.fetchall()
                 t = collections.OrderedDict()

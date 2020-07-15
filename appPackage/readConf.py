@@ -26,7 +26,8 @@ class ReadConf():
     # ------------------------------------------------------------------------------------------
     def postgres(self):
         return {'DB': 'Postgresql', 'server':  self.conf.get('Postgresql', 'server'), 'port': self.conf.get('Postgresql', 'port'),
-                'database': self.conf.get('Postgresql', 'database')}
+                'database': self.conf.get('Postgresql', 'database'),'pg_user':self.conf.get('Postgresql','pg_user')
+                ,'pg_pass':self.conf.get('Postgresql','pg_pass')}
 
     def ora(self):
         return {'DB': 'Ora', 'server': self.conf.get('Ora', 'server'), 'port': self.conf.get('Ora', 'port'),
@@ -47,6 +48,9 @@ class ReadConf():
 
     def qrySumFactoryProduct(self):
         return {'Query': self.conf.get('Query', 'qrySumFactoryProduct')}
+
+    def qrySumFactoryProduct2(self):
+        return {'Query': self.conf.get('Query', 'qrySumFactoryProduct2')}
 
     def qryDnTrucks(self):
         return {'Query': self.conf.get('Query', 'qryDnTrucks')}
@@ -140,3 +144,15 @@ class ReadConf():
 
     def qryTimestampBetweenDate(self):
         return {'Query': self.conf.get('Query', 'qryTimestampBetweenDate')}
+
+    def qryBusNowDtl(self):
+        return {'Query': self.conf.get('Query', 'busNowDtl')}
+
+    def upd_dn_timestamp_status(self):
+        return {'Query': self.conf.get('Query', 'upd_dn_timestamp_status')}
+
+    def weekly_sum(self):
+        return {'Query': self.conf.get('Query', 'weekly_sum')}
+
+    def weekly_detail(self):
+        return {'Query': self.conf.get('Query', 'weekly_detail')}

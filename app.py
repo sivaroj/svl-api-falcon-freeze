@@ -26,13 +26,14 @@ from appPackage import RouteForTimestampDn
 from appPackage import EmpDnBetweenDate
 from appPackage.MAP import Here_map
 from appPackage import TruckPosition
+from appPackage import TruckPositionDtl
 # from appPackage import DNTimestamp
 from appPackage import DNTimestamp_new
 from appPackage import GetDNTimeStamp
 from appPackage import GetEmpFromIdCard
 from appPackage import GetTimestampByDate
 from appPackage import  GetTimestampBetweenDate
-
+from appPackage import EmpLHWeekly
 
 def response(resp, methods, status, data):
     resp.set_header('Access-Control-Allow-Origin', '*')
@@ -289,15 +290,17 @@ class Get_Trucks_Per_Day(object):
             response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
         else:
             params = dict({})
+            dn_date = None
+            status = None
+            company = None
             for key, value in req.params.items():
                 params.update({key: value})
-            if 'work_date' in params:
-                work_date = params['dn_date']
-                data = GetTrucksPerDay.get_data(self, user=username, password=password, dn_date=work_date)
-                response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+            if 'dn_date' in params:
+                dn_date = params['dn_date']
             else:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require begin_date end_date parameters.')
-
+            data = GetTrucksPerDay.get_data(self, user=username, password=password, dn_date=dn_date)
+            response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
 class Get_DN_Truck(object):
     def on_options(sef, req, resp):
@@ -678,6 +681,29 @@ class Truck_Position(object):
                 response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require vehicles parameter.')
 
 
+class Truck_PositionDtl(object):
+
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+    def on_get(self, req, resp):
+        username, password = getUserPass(req)
+        if (username is None) or (password is None):
+            response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
+        else:
+            params = dict({})
+            for key, value in req.params.items():
+                params.update({key: value})
+            if 'vehicles' in params:
+                vehicles = params['vehicles']
+                data = TruckPositionDtl.get_data(self, user=username, password=password, vehicles=vehicles)
+                response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+            else:
+                response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require vehicles parameter.')
+
+
+
 class DN_Timestamp(object):
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
@@ -802,6 +828,32 @@ class getTimesBetweenDate:
                 data = GetTimestampBetweenDate.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date,emp_no=emp_no)
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
+class getEmpLHWeekly:
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+    def on_get(self, req, resp):
+        username, password = getUserPass(req)
+        if (username is None) or (password is None):
+            response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
+        else:
+            params = dict({})
+            for key, value in req.params.items():
+                params.update({key: value})
+                if ('id_card' in params) :
+                    id_card = params['id_card']
+                else:
+                    id_card = None
+
+                if ('emp_no' in params) :
+                    emp_no = params['emp_no']
+                else:
+                    emp_no = None
+
+                data = EmpLHWeekly.get_data(self, user=username, password=password, id_card = id_card, emp_no = emp_no)
+                response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
 
 app = application = falcon.API()
 # -----------------------------------------------------------------------
@@ -831,11 +883,13 @@ empDnBetweenDate = Emp_Dn_Between_Date()
 hereReverseGeoLocation = HereReverseGeoLocation()
 hereRouteSummary = HereRouteSummary()
 truckPosition = Truck_Position()
+truckPositionDtl = Truck_PositionDtl()
 dnTimestamp = DN_Timestamp()
 getDNTimeStamp = Get_DN_TimeStamp()
 getEmpFromIdCard = Get_Emp_from_IdCard()
 gTimestampByDate = getTimestampByDate()
 gTimestampBetweenDate = getTimesBetweenDate()
+empLHWeekly = getEmpLHWeekly()
 # -----------------------------------------------------------------------
 app.add_route('/api_v3/chkUser', chkUser)
 app.add_route('/api_v3/getSumLh_dn', getSumLh_dn)
@@ -863,8 +917,10 @@ app.add_route('/api_v3/empDnBetweenDate', empDnBetweenDate)
 app.add_route('/api_v3/reverseGeoLocation', hereReverseGeoLocation)
 app.add_route('/api_v3/routeSummary', hereRouteSummary)
 app.add_route('/api_v3/truckPositions', truckPosition)
+app.add_route('/api_v3/truckPositionsDtl', truckPositionDtl)
 app.add_route('/api_v3/dnTimestamp', dnTimestamp)
 app.add_route('/api_v3/getDNTimeStamp',getDNTimeStamp)
 app.add_route('/api_v3/getEmpFromIdCard',getEmpFromIdCard)
 app.add_route('/api_v3/getTimestampByDate',gTimestampByDate)
 app.add_route('/api_v3/getTimestampBetweenDate',gTimestampBetweenDate)
+app.add_route('/api_v3/empLHWeekly',empLHWeekly)

@@ -34,6 +34,8 @@ class GetDNTimeStamp:
                     t['dn_no'] = row[0]
                     t['source_point'] = row[3]
                     t['source_poing_latlng'] = row[4]
+                    t['customer_name'] = row[8]
+                    t['customer_address'] = row[9]
                     if row[5] == '1':
                         t['in_out'] = 'เข้า'
                     else:

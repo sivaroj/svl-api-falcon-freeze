@@ -22,11 +22,11 @@ class GetEmpFromIdCard:
                 cursor = conn.cursor()
 
                 if type(id_card) != type(None):
-                    qryStr = 'select emp_no,name,surname,social_no from employee where social_no= :id_card'
-                    parameter = {'id_card':id_card}
+                    qryStr = 'select emp_no,name,surname,social_no from employee where social_no= :id_card and status = :status'
+                    parameter = {'id_card':id_card,'status':'A'}
                 else:
-                    qryStr = 'select emp_no,name,surname,social_no from employee where emp_no= :emp_no'
-                    parameter = {'emp_no': emp_no}
+                    qryStr = 'select emp_no,name,surname,social_no from employee where emp_no= :emp_no and status = :status'
+                    parameter = {'emp_no': emp_no,'status':'A'}
                 cursor.execute(qryStr,parameter)
                 row = cursor.fetchone()
                 if cursor.rowcount == 1:

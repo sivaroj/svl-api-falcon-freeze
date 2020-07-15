@@ -3,8 +3,8 @@ import json
 import requests
 import appPackage.MAP.readConf as ReadConf
 from appPackage.MAP import Here_map
-from appPackage.MAP.convertTool import ConvertTool
-
+#from appPackage.MAP.convertTool import ConvertTool
+from appPackage.ConvertUtil import ConvertUtil
 
 def BusNow(vehicleList):
     conf = ReadConf.ReadConf().Nostra_map()
@@ -19,7 +19,8 @@ def BusNow(vehicleList):
         truck_addr = json.loads(Here_map.ReverseGeoCoder(str(vehicle['latitude']), str(vehicle['longitude']), '2').decode('utf-8'))
         addr = truck_addr['Address'][0]['label']
         truck_position['vehicle'] = vehicle['vehicleName']
-        truck_position['datetime'] = ConvertTool.tzToStr(vehicle['dateTime'])
+        # truck_position['datetime'] = ConvertTool.tzToStr(vehicle['dateTime'])
+        truck_position['datetime'] = ConvertUtil.tzToStr(vehicle['dateTime'])
         truck_position['speed'] = vehicle['speed']
         truck_position['heading'] = vehicle['direction']
         truck_position['latitude'] = vehicle['latitude']

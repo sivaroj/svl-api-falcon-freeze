@@ -23,15 +23,12 @@ class RouteForTimestampDn:
             check_out = False
             if self.dn_order != 99:
                 check_out = True
-
-
-
         return check_in, check_out
     def get_data(self, user, password, dn_no, emp_no):
         ora = ReadConf().ora()
         login = Login_Postgres(user=user, password=password)
         is_login = json.loads(login.login().decode('utf-8'))
-        if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|'.find(user) > 0):
+        if is_login['login'] == 'True' and ('|csdplan|hrconnect|hr|line'.find(user) > 0):
             conn = None
             data = {}
             try:
@@ -49,7 +46,10 @@ class RouteForTimestampDn:
                 ora_qryStr=ReadConf().find_dn_dhain()['Query']
                 parameters = {'dn_no': dn_no}
                 ora_cursor.execute(ora_qryStr,parameters)
+                first_dn = ' '
                 first_dn = ora_cursor.fetchone()[0]
+                if type(first_dn) == type(None):
+                    first_dn = ' '
                 # print('first_dn {}'.format(first_dn))
                 pg = ReadConf().postgres()
                 conn =psycopg2.connect(host=pg['server'], port=pg['port'], database=pg['database'], user=user, password=password)

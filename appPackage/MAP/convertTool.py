@@ -21,6 +21,17 @@ class ConvertTool():
         d = d.to('Asia/Bangkok')
         return d.format('DD/MM/YYYY HH:mm:ss')
 
+    def tzToBangkokAD(inputdate):
+        # format วันที่ YYYY-MM-DD
+        offset = (time.timezone if (time.localtime().tm_isdst == 0) else time.altzone) / 60 / 60 * -1
+        d = arrow.get(inputdate)
+        d = d.to('Asia/Bangkok')
+        return d.format('YYYY-MM-DD HH:mm:ss')
+
     def tzToStr(inputDate):
         d = arrow.get(inputDate)
         return d.format('DD/MM/YYYY HH:mm:ss')
+
+    def tzToStrAD(inputDate):
+        d = arrow.get(inputDate);
+        return d.format('YYYY-MM-DD HH:mm:ss')

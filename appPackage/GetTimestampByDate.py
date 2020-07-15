@@ -3,7 +3,7 @@ import json
 import collections
 from .readConf import ReadConf
 from .login_Postgres import Login_Postgres
-
+from appPackage.ConvertUtil import  ConvertUtil
 
 class GetTimestampByDate:
     def get_data(self,user,password,begin_date,end_date):
@@ -17,12 +17,14 @@ class GetTimestampByDate:
                                         password=password)
                 cursor = conn.cursor()
                 qryStr = ReadConf().qryTimestampByDate()['Query']
-                parameter = {'begin_date':begin_date, 'end_date':end_date}
+                # แปลง dd/mm/yyyy เป็น yyyy-mm-dd
+                bdate = ConvertUtil.dateBEtoAD(self, begin_date)
+                edate = ConvertUtil.dateBEtoAD(self, end_date)
+                parameter = {'begin_date': bdate, 'end_date': edate}
                 cursor.execute(qryStr,parameter)
                 records = cursor.fetchall()
                 data = []
                 dn=collections.OrderedDict()
-                t = collections.OrderedDict()
                 dn=[]
                 for row in records:
                     t = collections.OrderedDict()
@@ -38,6 +40,8 @@ class GetTimestampByDate:
                     t['distance'] = row[11]
                     t['latitude'] = row[12]
                     t['longitude'] = row[13]
+                    t['customer_name'] = row[14]
+                    t['customer_addr1'] = row[15]
                     dn.append(t)
                 data.append(dn)
                 cursor.close()
