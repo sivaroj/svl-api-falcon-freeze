@@ -1,22 +1,23 @@
+with c as (
+	select l.customer_no,l.dn_date ,l.product
+	--,lc.customer_no  as supplier
+	,count(distinct l.car_regis_no) as trucks
+	,sum(l.wgt) as wgt
+	,0 as coil_remain
+	from lh_dn l 
+	inner join line_lh_car_regis lc on lc.car_regis  = l.car_regis_no and lc.status ='N'
+	where l.dn_date = '2020-06-16' and l.status ='A'
+	group by l.customer_no,l.dn_date ,l.product 
+	union all
+	select cr.customer_no ,cr.dn_date ,cr.product ,0 as trucks,0 as wgt,coil_remain 
+	from coil_remain cr 
+	where cr.dn_date  = '2020-06-16'
+) select  c.customer_no,c.product,sum(c.trucks) as trucks
+, sum(c.wgt) as wgt ,sum(c.coil_remain) as coil_remain
+,case when ac.logistics ='LH' then 'true' else 'false' end as associated
+from c 
+left outer  join associated_comp ac on ac.company =c.customer_no
+group by c.customer_no,c.product, associated
+order by c.customer_no,c.product
 
-with dn as (
- select min(data->>'MD5') as md5 from dn_timestamp t where t.data->>'DN_NO' = '2005050015'
-)
-select d.data->'DN_NO' as dn_no,d.data->'TRUCK_NO' as truck_no,d.data->'EMP_NO' as emp_no,d.data->'SOURCE_POINT' as source_point
-,d.data->'LAT_LNG' as lat_lng
-,d.data->'IN_OUT' as in_out
-,d.data->'POSITION'->'timestamp' as mo_timestamp
-,d.data->'POSITION'->'latitude' as mo_lattitude 
-,d.data->'POSITION'->'longitude' as mo_longitude
-,d.data->'POSITION'->'address' as mo_address
-,d.data->'POSITION'->'far_from'->'distance' as mo_far_from_distance
-,d.data->'POSITION'->'far_from'->'travel_time' as mo_far_from_travel_time
-,d.data->'TRUCK_POSITION'->'datetime' as tr_datetime
-,d.data->'TRUCK_POSITION'->'latitude' as mo_lattitude 
-,d.data->'TRUCK_POSITION'->'longitude' as mo_longitude
-,d.data->'TRUCK_POSITION'->'address' as tr_address
-,d.data->'TRUCK_POSITION'->'far_from'->'distance' as tr_far_from_distance
-,d.data->'TRUCK_POSITION'->'far_from'->'travel_time' as tr_far_from_travel_time
-from dn_timestamp d where d.data->>'MD5' = (select md5 from DN)
-order by d.data->>'DN_NO' ,(d.data->>'DN_ORDER')::int 
 

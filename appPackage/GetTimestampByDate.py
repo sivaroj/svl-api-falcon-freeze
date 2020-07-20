@@ -27,6 +27,22 @@ class GetTimestampByDate:
                 dn=collections.OrderedDict()
                 dn=[]
                 for row in records:
+                    # t = collections.OrderedDict()
+                    # t['emp_no'] = row[0]
+                    # t['driver'] = row[1]
+                    # t['tel'] = row[2]
+                    # t['dn_date'] = row[3]
+                    # t['dn_no'] = row[4]
+                    # t['source_point'] = row[5]
+                    # t['in_out'] = row[8]
+                    # t['timestamp'] = row[9]
+                    # t['address'] = row[10]
+                    # t['distance'] = row[11]
+                    # t['latitude'] = row[12]
+                    # t['longitude'] = row[13]
+                    # t['customer_name'] = row[14]
+                    # t['customer_addr1'] = row[15]
+
                     t = collections.OrderedDict()
                     t['emp_no'] = row[0]
                     t['driver'] = row[1]
@@ -34,14 +50,14 @@ class GetTimestampByDate:
                     t['dn_date'] = row[3]
                     t['dn_no'] = row[4]
                     t['source_point'] = row[5]
-                    t['in_out'] = row[8]
-                    t['timestamp'] = row[9]
-                    t['address'] = row[10]
-                    t['distance'] = row[11]
-                    t['latitude'] = row[12]
-                    t['longitude'] = row[13]
-                    t['customer_name'] = row[14]
-                    t['customer_addr1'] = row[15]
+                    t['in_out'] = row[6]
+                    t['timestamp'] = row[7]
+                    t['address'] = row[8]
+                    t['distance'] = row[9]
+                    t['latitude'] = row[10]
+                    t['longitude'] = row[11]
+                    t['customer_name'] = row[12]
+                    t['customer_addr1'] = row[13]
                     dn.append(t)
                 data.append(dn)
                 cursor.close()

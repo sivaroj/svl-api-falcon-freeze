@@ -45,7 +45,6 @@ class EmpLHWeekly:
                 data = collections.OrderedDict()
                 weekly = []
                 weekly_sum = collections.OrderedDict()
-                dn = []
                 i = 1
                 for row in records:
                     w = collections.OrderedDict()
@@ -60,8 +59,9 @@ class EmpLHWeekly:
                     w['weekly_amount'] = row[10]
                     ora_cursordtl.execute(qryStrDtl,{'processdate': row[0], 'emp_no': row[2]})
                     dtl_records = ora_cursordtl.fetchall()
+                    dn = []
                     for r in dtl_records:
-                        print('processdate {} type {} dn_date {} dn_no {}'.format(row[0],r[1],r[5],r[4]))
+                        # print('processdate {} type {} dn_date {} dn_no {}'.format(row[0],r[1],r[5],r[4]))
                         t = collections.OrderedDict()
                         t['type'] = r[1]
                         t['truck_no'] = r[3]
@@ -70,7 +70,7 @@ class EmpLHWeekly:
                         t['fuel_cash'] = r[7]
                         t['clear_cash'] = r[8]
                         t['advance_cash'] = r[9]
-                        t['expess'] = r[10]
+                        t['express'] = r[10]
                         t['net'] = r[11]
                         dn.append(t)
                     w['dn'] = dn
