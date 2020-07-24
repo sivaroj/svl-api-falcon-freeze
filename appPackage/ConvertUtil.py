@@ -15,7 +15,6 @@ class ConvertUtil:
         t = dateBE[11:]
         d = d1[6:] + "-" + d1[3:5] + "-" + d1[:2]
         BE = '{} {}'.format(d,t).strip()
-        print(BE)
         return BE
 
     def dateADtoBE(self,dateAD):
@@ -24,7 +23,6 @@ class ConvertUtil:
         t = dateAD[11:]
         d = d1[2]+"/"+d1[1]+"/"+d1[0]
         AD = '{} {}'.format(d, t).strip()
-        print(AD)
         return AD
 
     def convert_truck(self, t):

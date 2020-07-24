@@ -33,7 +33,8 @@ from appPackage import DNTimestamp_new
 from appPackage import GetDNTimeStamp
 from appPackage import GetEmpFromIdCard
 from appPackage import GetTimestampByDate
-from appPackage import  GetTimestampBetweenDate
+from appPackage import GetTimestampDetail
+from appPackage import GetTimestampBetweenDate
 from appPackage import EmpLHWeekly
 
 def response(resp, methods, status, data):
@@ -797,6 +798,32 @@ class getTimestampByDate:
                 response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
 
 
+class getTimestampDetail:
+    def on_options(sef, req, resp):
+        data = json.dumps('').encode('utf-8')
+        response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+    def on_get(self, req, resp):
+        username, password = getUserPass(req)
+        if (username is None) or (password is None):
+            response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: user password')
+        else:
+            params = dict({})
+            for key, value in req.params.items():
+                params.update({key: value})
+                if ('begin_date' in params) :
+                    begin_date = params['begin_date']
+                else:
+                    response(resp, 'GET, OPTIONS', falcon.HTTP_404, 'error: Require dn_date parameter.')
+                if ('end_date' in params) :
+                    end_date = params['end_date']
+                else:
+                    end_date = begin_date
+                print('gettimestampDetail')
+                data = GetTimestampDetail.get_data(self, user=username, password=password, begin_date=begin_date, end_date=end_date)
+                response(resp, 'GET, OPTIONS', falcon.HTTP_200, data)
+
+
 class getTimesBetweenDate:
     def on_options(sef, req, resp):
         data = json.dumps('').encode('utf-8')
@@ -893,6 +920,7 @@ getDNTimeStamp = Get_DN_TimeStamp()
 getEmpFromIdCard = Get_Emp_from_IdCard()
 gTimestampByDate = getTimestampByDate()
 gTimestampBetweenDate = getTimesBetweenDate()
+gTimestampDetail = getTimestampDetail()
 empLHWeekly = getEmpLHWeekly()
 # -----------------------------------------------------------------------
 app.add_route('/api_v3/chkUser', chkUser)
@@ -927,6 +955,7 @@ app.add_route('/api_v3/getDNTimeStamp',getDNTimeStamp)
 app.add_route('/api_v3/getEmpFromIdCard',getEmpFromIdCard)
 app.add_route('/api_v3/getTimestampByDate',gTimestampByDate)
 app.add_route('/api_v3/getTimestampBetweenDate',gTimestampBetweenDate)
+app.add_route('/api_v3/getTimestampDetail',gTimestampDetail)
 app.add_route('/api_v3/empLHWeekly',empLHWeekly)
 # -----------------------------------------------------------------------
 if __name__ == '__main__':

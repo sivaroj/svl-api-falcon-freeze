@@ -5,7 +5,15 @@ import cx_Oracle
 from .readConf import ReadConf
 from appPackage.login_Postgres import Login_Postgres
 
+
 class EmpLHWeekly:
+    def rtn_none(self):
+        print('rtn_none')
+        dn = []
+        data = collections.OrderedDict()
+        data['weekly'] = dn
+        return json.dumps(data, indent=" ", ensure_ascii=False).encode('utf-8')
+
     def get_data(self, user, password, id_card, emp_no=''):
         login = Login_Postgres(user=user, password=password)
         is_login = json.loads(login.login().decode('utf-8'))
@@ -20,11 +28,16 @@ class EmpLHWeekly:
                 ora_cursordtl = ora_conn.cursor()
 
                 # ---------------- หา emp_no ถ้าส่ง บัตรประชาชนมา --------------------
-                if type(id_card) != type(None):
+                if id_card is not None:
+                #if type(id_card) != type(None):
                     qry_emp = 'select e.emp_no ,e.name||\' \'||e.surname as emp_name from employee e where e.social_no = :id_card and e.status=:status'
                     ora_cursor.execute(qry_emp,{'id_card': id_card, 'status':'A'})
                     ora_cursor.execute(qry_emp)
                     row = ora_cursor.fetchone()
+
+                    if row is None:
+                        print('id_card {}'.format(row))
+                        return EmpLHWeekly.rtn_none(self)
                     qry_emp_no = row[0]
                     qry_emp_name = row[1]
                 else:
@@ -32,6 +45,8 @@ class EmpLHWeekly:
                     ora_cursor.execute(qry_emp, {'emp_no': emp_no, 'status': 'A'})
                     ora_cursor.execute(qry_emp)
                     row = ora_cursor.fetchone()
+                    if row is None:
+                        return EmpLHWeekly.rtn_none(self)
                     qry_emp_no = emp_no
                     qry_emp_name = row[1]
 
@@ -42,6 +57,8 @@ class EmpLHWeekly:
                 qryStrDtl = ReadConf().weekly_detail()['Query']
                 ora_cursor.execute(qryStr)
                 records = ora_cursor.fetchall()
+                if records is None:
+                    return EmpLHWeekly.rtn_none(self)
                 data = collections.OrderedDict()
                 weekly = []
                 weekly_sum = collections.OrderedDict()

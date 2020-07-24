@@ -145,6 +145,9 @@ class ReadConf():
     def qryTimestampBetweenDate(self):
         return {'Query': self.conf.get('Query', 'qryTimestampBetweenDate')}
 
+    def qryTimestampDetail(self):
+        return {'Query': self.conf.get('Query', 'qryTimestampDetail')}
+
     def qryBusNowDtl(self):
         return {'Query': self.conf.get('Query', 'busNowDtl')}
 

@@ -34,3 +34,4 @@ from .GetTimestampByDate import GetTimestampByDate
 from .GetTimestampBetweenDate import GetTimestampBetweenDate
 from .ConvertUtil import ConvertUtil
 from .EmpLHWeekly import EmpLHWeekly
+from .GetTimestampDetail import GetTimestampDetail

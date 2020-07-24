@@ -21,6 +21,7 @@ class GetTimestampByDate:
                 bdate = ConvertUtil.dateBEtoAD(self, begin_date)
                 edate = ConvertUtil.dateBEtoAD(self, end_date)
                 parameter = {'begin_date': bdate, 'end_date': edate}
+                print(bdate)
                 cursor.execute(qryStr,parameter)
                 records = cursor.fetchall()
                 data = []
