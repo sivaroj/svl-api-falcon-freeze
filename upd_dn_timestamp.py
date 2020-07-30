@@ -24,15 +24,7 @@ def updateDB():
         qryUpdatStatus =  ReadConf().upd_dn_timestamp_status()['Query']
         for row in data:
             print(row[0],row[1])
-            #params = {'id': row[0]}
-            # upd_cursor.execute(qryUpdatStatus,params)
-            # print(upd_cursor.rowcount)
 
-        # conn.commit()
-        # -----------------------------------------------------------------
-        # 3. update
-        # data->'POSITION'->far_from data->'POSITION'->'address'
-        # data->'TRUCK_POSITION->far_from data->'TRUCK_POSITION'->'address
         print('update GPS')
         mode = 'fastest;truck;traffic:enabled'
         for row in data:
